@@ -119,12 +119,13 @@ export default function RootLayout({
                 <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2">CONNECT</h3>
                 <div className="flex flex-col gap-2">
                   <a
-                    href="https://open.spotify.com/show/yourpodcast"
+                    href="https://open.spotify.com/show/4Pmd0zCt4r1UCEI2mTJdtl"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-red-500 transition-colors"
+                    className="flex items-center gap-2"
+                    aria-label="Follow The Fireside Tribe on Spotify"
                   >
-                    Spotify
+                    FOLLOW ON SPOTIFY
                   </a>
                   <a
                     href="https://youtube.com/channel/yourchannel"
