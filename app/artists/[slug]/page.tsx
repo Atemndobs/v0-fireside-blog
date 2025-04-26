@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Music, Youtube, Instagram, Twitter } from "lucide-react"
+import { ArrowLeft, Youtube, Instagram, Twitter } from "lucide-react"
 
 interface ArtistPageProps {
   params: {
@@ -147,7 +147,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-green-600 transition-colors"
                   >
-                    <Music size={20} />
                     <span>Spotify</span>
                   </a>
 
@@ -189,7 +188,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                 <ul className="space-y-2">
                   {artist.popularSongs.map((song, index) => (
                     <li key={index} className="flex items-center gap-2">
-                      <Music size={16} className="text-blue-600" />
                       <span>{song}</span>
                     </li>
                   ))}

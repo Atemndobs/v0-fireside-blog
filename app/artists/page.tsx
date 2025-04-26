@@ -1,4 +1,3 @@
-import { Music } from "lucide-react"
 import { ArtistCard } from "@/components/artist-card"
 
 export default function ArtistsPage() {
@@ -55,7 +54,6 @@ export default function ArtistsPage() {
         </div>
 
         <div className="flex items-center gap-4 mb-12">
-          <Music size={32} className="text-blue-600" />
           <h2 className="text-3xl md:text-4xl font-black">FEATURED ARTISTS</h2>
         </div>
 
