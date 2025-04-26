@@ -21,6 +21,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/icons/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="The Fireside Tribe" />
+        <meta name="description" content="Celebrating and promoting Cameroonian music and the Fireside Tribe podcast" />
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+              navigator.serviceWorker.register('/service-worker.js');
+            });
+          }
+        ` }} />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <header className="bg-black text-white py-4 px-4 border-b-4 border-red-500 sticky top-0 z-50">
@@ -45,6 +63,9 @@ export default function RootLayout({
                 </Link>
                 <Link href="/about" className="font-bold hover:text-red-500 transition-colors">
                   ABOUT
+                </Link>
+                <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
+                  A³
                 </Link>
               </nav>
 
@@ -89,6 +110,9 @@ export default function RootLayout({
                   <Link href="/about" className="hover:text-red-500 transition-colors">
                     About
                   </Link>
+                  <Link href="/AAA" className="hover:text-purple-500 transition-colors">
+                    A³
+                  </Link>
                 </nav>
               </div>
 
@@ -132,7 +156,7 @@ export default function RootLayout({
             </div>
 
             <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-gray-800 text-center text-gray-400">
-              <p>© {new Date().getFullYear()} The Fireside Tribe. All rights reserved.</p>
+              <p> {new Date().getFullYear()} The Fireside Tribe. All rights reserved.</p>
             </div>
           </footer>
         </ThemeProvider>

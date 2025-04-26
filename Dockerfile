@@ -6,7 +6,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
 RUN \
-  if [ -f package-lock.json ]; then npm ci; \
+  if [ -f package-lock.json ]; then npm ci --legacy-peer-deps; \
   elif [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm install --frozen-lockfile; \
   else echo "No lockfile found." && exit 1; fi
