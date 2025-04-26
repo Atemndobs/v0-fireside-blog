@@ -43,7 +43,7 @@ export default function Home() {
               date="April 20, 2025"
               spotifyUrl="https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929"
               youtubeUrl="https://youtu.be/kD-wI-jZQBY"
-              imageSrc="https://minio.goose-neon.ts.net/curator/assets/Riverside_pod.png"
+              imageSrc="/images/tneeya_joli.jpeg"
             />
 
             <PodcastCard
