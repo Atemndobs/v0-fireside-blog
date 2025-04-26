@@ -24,14 +24,7 @@ export default function Home() {
                 LISTEN NOW
               </Link>
             </div>
-            <div className="relative h-[300px] md:h-[400px] border-8 border-white rotate-2 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.5)]">
-              <Image
-                src="images/hero_2.png"
-                alt="The Fireside Tribe Podcast"
-                fill
-                className="object-cover"
-              />
-            </div>
+            {/* Removed empty hero image container as per user request */}
           </div>
         </div>
       </section>
