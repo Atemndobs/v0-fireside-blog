@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -6,7 +8,7 @@ import "./fonts.css"
 import Link from "next/link"
 import { Menu } from "lucide-react"
 import { ThemeProvider } from "@/components/theme-provider"
-import { useState } from "react"
+import MobileHeader from "@/components/MobileHeader"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,8 +23,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
-
   return (
     <html lang="en">
       <head>
@@ -72,39 +72,9 @@ export default function RootLayout({
                 </Link>
               </nav>
 
-              {/* Mobile Burger Menu - with client-side state */}
-              <div className="md:hidden">
-                <button
-                  className="text-white focus:outline-none"
-                  aria-label="Open navigation menu"
-                  onClick={() => setMobileNavOpen(true)}
-                  type="button"
-                >
-                  <Menu size={24} />
-                </button>
-              </div>
+              {/* Mobile Burger Menu - now in separate client component */}
+              <MobileHeader />
             </div>
-            {/* Mobile Nav Drawer - with client-side state */}
-            {mobileNavOpen && (
-              <nav
-                className="md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-95 z-50 flex flex-col items-center justify-center gap-8 text-2xl font-bold transition-all"
-              >
-                <button
-                  className="absolute top-6 right-6 text-white text-3xl"
-                  aria-label="Close navigation menu"
-                  onClick={() => setMobileNavOpen(false)}
-                  type="button"
-                >
-                  ×
-                </button>
-                <Link href="/" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>HOME</Link>
-                <Link href="/episodes" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>EPISODES</Link>
-                <Link href="/artists" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>ARTISTS</Link>
-                <Link href="/blog" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>BLOG</Link>
-                <Link href="/about" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>ABOUT</Link>
-                <Link href="/AAA" className="hover:text-purple-500" onClick={() => setMobileNavOpen(false)}>A³</Link>
-              </nav>
-            )}
           </header>
 
           {children}
