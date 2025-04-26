@@ -52,7 +52,7 @@ export default function Home() {
               date="March 15, 2025"
               spotifyUrl="https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3"
               youtubeUrl="https://youtu.be/mw4xLb59QO0"
-              imageSrc="https://minio.goose-neon.ts.net/curator/assets/anyang_afro.jpg"
+              imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.byPUWkyhJy3cnZmiGVzu8QHaHb%26pid%3DApi&f=1"
             />
           </div>
 
