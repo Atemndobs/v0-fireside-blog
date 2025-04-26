@@ -365,7 +365,6 @@ export default function AAAPage() {
 
             <div className="bg-purple-600 p-6 border-4 border-white relative overflow-hidden group">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <Headphones size={32} className="mb-4" />
               <h3 className="font-bold text-2xl mb-4">THE CONNECTOR</h3>
               <p>Anyang bridges cultures and opens doors for Cameroonian music globally</p>
             </div>

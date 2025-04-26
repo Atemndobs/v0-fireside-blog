@@ -94,7 +94,7 @@ export default function AboutPage() {
               href="/episodes"
               className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 font-bold text-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(239,68,68,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all"
             >
-              LISTEN TO OUR PODCAST <Headphones className="ml-2" />
+              LISTEN TO OUR PODCAST
             </Link>
           </div>
         </div>

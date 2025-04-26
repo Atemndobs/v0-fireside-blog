@@ -2,8 +2,9 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import "./fonts.css"
 import Link from "next/link"
-import { Headphones, Menu } from "lucide-react"
+import { Menu } from "lucide-react"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -39,12 +40,11 @@ export default function RootLayout({
           }
         ` }} />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className + " font-paragraph"}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <header className="bg-black text-white py-4 px-4 border-b-4 border-red-500 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
               <Link href="/" className="flex items-center gap-2">
-                <Headphones size={24} className="text-red-500" />
                 <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
               </Link>
 
@@ -83,7 +83,6 @@ export default function RootLayout({
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <Link href="/" className="flex items-center gap-2 mb-4">
-                  <Headphones size={24} className="text-red-500" />
                   <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
                 </Link>
                 <p className="text-gray-400">

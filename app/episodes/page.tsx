@@ -1,4 +1,3 @@
-import { Headphones } from "lucide-react"
 import { PodcastCard } from "@/components/podcast-card"
 
 export default function EpisodesPage() {
@@ -67,7 +66,6 @@ export default function EpisodesPage() {
         </div>
 
         <div className="flex items-center gap-4 mb-12">
-          <Headphones size={32} className="text-red-500" />
           <h2 className="text-3xl md:text-4xl font-black">ALL EPISODES</h2>
         </div>
 
@@ -93,7 +91,6 @@ export default function EpisodesPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-2"
             >
-              <Headphones size={20} />
               SUBSCRIBE ON SPOTIFY
             </a>
           </div>
