@@ -8,7 +8,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1 mb-4">ABOUT US</div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4">THE FIRESIDE TRIBE</h1>
+          <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Celebrating and promoting Cameroonian music and Afrobeats through podcasts, articles, and artist features.
           </p>

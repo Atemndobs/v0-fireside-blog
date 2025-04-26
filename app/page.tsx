@@ -15,7 +15,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1">PODCAST</div>
-              <h1 className="text-5xl md:text-7xl font-black leading-tight">THE FIRESIDE TRIBE</h1>
+              <h1 className="text-5xl md:text-7xl font-headline leading-tight">The Fireside Tribe</h1>
               <p className="text-xl md:text-2xl font-bold">Celebrating Cameroon's Talents in Afrobeats Scene</p>
               <Link
                 href="#latest-episodes"

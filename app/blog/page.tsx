@@ -59,7 +59,7 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-block bg-purple-600 px-4 py-2 text-white font-black rotate-1 mb-4">BLOG</div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4">THE FIRESIDE TRIBE</h1>
+          <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Insights, interviews, and deep dives into Cameroon's vibrant music scene and the artists shaping its future.
           </p>

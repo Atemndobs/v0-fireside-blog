@@ -59,7 +59,7 @@ export default function EpisodesPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1 mb-4">PODCAST</div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4">THE FIRESIDE TRIBE</h1>
+          <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Join us as we explore Cameroon's vibrant music scene, interview artists, and celebrate the sounds that make
             Cameroonian Afrobeats unique.
