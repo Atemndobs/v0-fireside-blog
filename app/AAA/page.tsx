@@ -105,7 +105,7 @@ export default function AAAPage() {
           "You learn a lot from filling interviews. Music can be a form of therapy for prisoners. Creativity thrives even in challenging environments."
         </p>
       `,
-      image: "/images/anyang_afro_zoom.png",
+      image: "/images/anyang_afro_zoom.png",   
       funFacts: [
         "Has organized music festivals on three continents",
         "Speaks five languages fluently",
