@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Mic, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { PodcastCard } from "@/components/podcast-card"
 import { ArtistCard } from "@/components/artist-card"
@@ -112,7 +112,6 @@ export default function Home() {
       <section className="py-16 px-4 bg-yellow-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12">
-            <Mic size={32} className="text-purple-600" />
             <h2 className="text-4xl md:text-5xl font-black">LATEST ARTICLES</h2>
           </div>
 

@@ -1,4 +1,3 @@
-import { Mic } from "lucide-react"
 import { BlogCard } from "@/components/blog-card"
 
 export default function BlogPage() {
@@ -66,7 +65,6 @@ export default function BlogPage() {
         </div>
 
         <div className="flex items-center gap-4 mb-12">
-          <Mic size={32} className="text-purple-600" />
           <h2 className="text-3xl md:text-4xl font-black">LATEST ARTICLES</h2>
         </div>
 
