@@ -69,12 +69,42 @@ export default function RootLayout({
                 </Link>
               </nav>
 
+              {/* Mobile Burger Menu */}
               <div className="md:hidden">
-                <button className="text-white">
+                <button
+                  className="text-white focus:outline-none"
+                  aria-label="Open navigation menu"
+                  onClick={() => {
+                    const mobileNav = document.getElementById('mobile-nav');
+                    if (mobileNav) mobileNav.classList.toggle('hidden');
+                  }}
+                >
                   <Menu size={24} />
                 </button>
               </div>
             </div>
+            {/* Mobile Nav Drawer */}
+            <nav
+              id="mobile-nav"
+              className="md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-95 z-50 flex flex-col items-center justify-center gap-8 text-2xl font-bold hidden transition-all"
+            >
+              <button
+                className="absolute top-6 right-6 text-white text-3xl"
+                aria-label="Close navigation menu"
+                onClick={() => {
+                  const mobileNav = document.getElementById('mobile-nav');
+                  if (mobileNav) mobileNav.classList.add('hidden');
+                }}
+              >
+                ×
+              </button>
+              <Link href="/" className="hover:text-red-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>HOME</Link>
+              <Link href="/episodes" className="hover:text-red-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>EPISODES</Link>
+              <Link href="/artists" className="hover:text-red-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>ARTISTS</Link>
+              <Link href="/blog" className="hover:text-red-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>BLOG</Link>
+              <Link href="/about" className="hover:text-red-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>ABOUT</Link>
+              <Link href="/AAA" className="hover:text-purple-500" onClick={() => document.getElementById('mobile-nav')?.classList.add('hidden')}>A³</Link>
+            </nav>
           </header>
 
           {children}
