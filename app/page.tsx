@@ -90,10 +90,10 @@ export default function Home() {
             />
 
             <ArtistCard
-              name="Yame"
-              description="Rising star with a unique blend of Afrobeats and contemporary R&B"
-              imageSrc="https://i1.sndcdn.com/artworks-cjRshmfASz1ThAw9-EjsXyA-t500x500.jpg"
-              slug="yame"
+              name="Kang"
+              description="Afrobeats and urban music innovator from Cameroon."
+              imageSrc="/images/kang_Gang.png"
+              slug="kang"
             />
           </div>
 
