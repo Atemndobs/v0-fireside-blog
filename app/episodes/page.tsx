@@ -20,14 +20,6 @@ export default function EpisodesPage() {
       imageSrc: "/images/hens_headshot.jpeg",
     },
     {
-      title: "Interview with Tayc: Bringing Cameroonian Sounds to French R&B",
-      description: "An exclusive conversation with Tayc about his Cameroonian heritage and musical journey.",
-      date: "February 28, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
-      youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "/placeholder.svg?height=300&width=300",
-    },
-    {
       title: "The Legacy of Manu Dibango and Modern Cameroonian Jazz",
       description: "Exploring how Manu Dibango's influence continues to shape Cameroonian music today.",
       date: "February 10, 2025",
