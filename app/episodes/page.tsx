@@ -17,7 +17,7 @@ export default function EpisodesPage() {
       date: "March 15, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/hens_headshot.jpeg",
     },
     {
       title: "Interview with Tayc: Bringing Cameroonian Sounds to French R&B",
@@ -49,7 +49,7 @@ export default function EpisodesPage() {
       date: "January 5, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/jail_time_records_cover.png",
     },
   ]
 
