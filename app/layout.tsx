@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Menu } from "lucide-react"
 import { ThemeProvider } from "@/components/theme-provider"
 import MobileHeader from "@/components/MobileHeader"
+import ThemeSwitcher from "@/components/ThemeSwitcher"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -68,6 +69,7 @@ export default function RootLayout({
                 <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
                   A³
                 </Link>
+                <ThemeSwitcher />
               </nav>
 
               {/* Mobile Burger Menu - now in separate client component */}
