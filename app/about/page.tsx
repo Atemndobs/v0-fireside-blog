@@ -7,7 +7,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-yellow-50 py-16 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1 mb-4">ABOUT US</div>
+          <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1 mb-4">ABOUT</div>
           <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Celebrating and promoting Cameroonian music and Afrobeats through podcasts, articles, and artist features.
@@ -18,7 +18,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
             <div className="relative h-[300px] border-4 border-black overflow-hidden">
               <Image
-                src="/placeholder.svg?height=400&width=600"
+                src="https://minio.goose-neon.ts.net/curator/assets/tripleateam1.png"
                 alt="The Fireside Tribe Podcast"
                 fill
                 className="object-cover"
