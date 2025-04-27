@@ -43,7 +43,7 @@ export default function Home() {
               date="April 20, 2025"
               spotifyUrl="https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929"
               youtubeUrl="https://youtu.be/kD-wI-jZQBY"
-              imageSrc="/images/tneeya_joli.jpeg"
+              imageSrc="/images/jovi3.png"
             />
 
             <PodcastCard
@@ -78,7 +78,7 @@ export default function Home() {
             <ArtistCard
               name="Tayc"
               description="Blending French R&B with Cameroonian roots, Tayc is a global sensation."
-              imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.GT52o8jwL9nkeMfVCdrcCwHaEK%26pid%3DApi&f=1&ipt=a1bf8e12f282ed6f183eb210d9d28afbdd07cbe8003b6e6e1c4d1aeaafb44ec8&ipo=images"
+              imageSrc="/images/tayc-1.jpg"
               slug="tayc"
             />
 
