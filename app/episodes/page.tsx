@@ -4,28 +4,28 @@ export default function EpisodesPage() {
   // In a real app, you would fetch this data from an API or CMS
   const episodes = [
     {
-      title: "Exploring Cameroon's Afrobeats Scene",
-      description: "Dive into the rich sounds and rhythms of Cameroon's growing Afrobeats movement.",
-      date: "April 20, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
-      youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "/images/sepo.jpg",
-    },
-    {
       title: "The Rise of Cameroonian Artists Globally",
       description: "Discover how Cameroonian artists are making waves on the international music scene.",
       date: "March 15, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/images/hens_headshot.jpeg",
+      imageSrc: "/images/sepo.jpg",
     },
     {
-      title: "Spotlight on Douala's Underground Music Scene",
+      title: "Exploring Cameroon's Afrobeats Scene",
+      description: "Dive into the rich sounds and rhythms of Cameroon's growing Afrobeats movement.",
+      date: "April 20, 2025",
+      spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
+      youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
+      imageSrc: "/images/jail_time_records_cover.png",
+    },
+    {
+      title: "Spotlight on Douala's Music Scene",
       description: "Exploring the vibrant underground music culture in Cameroon's largest city.",
-      date: "January 5, 2025",
+      date: "May 5, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/images/jail_time_records_cover.png",
+      imageSrc: "/images/ber_boys.jpg",
     },
   ]
 
