@@ -6,7 +6,7 @@ export default function ArtistsPage() {
     {
       name: "Tayc",
       description: "French-Cameroonian R&B sensation taking Europe by storm",
-      imageSrc: "/images/tayc.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/tayc-2.jpeg",
       slug: "tayc",
     },
     {
@@ -24,7 +24,7 @@ export default function ArtistsPage() {
     {
       name: "Kang",
       description: "Innovative artist pushing the boundaries of Afrobeats with electronic influences",
-      imageSrc: "/images/kang.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/kang_Gang.png",
       slug: "kang",
     },
     {
@@ -34,9 +34,9 @@ export default function ArtistsPage() {
       slug: "ronis-goliath",
     },
     {
-      name: "Manu Dibango",
-      description: "Legendary saxophonist and pioneer of Afro-jazz and makossa",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      name: "Haira Berylie",
+      description: "Singer-songwriter known for her vibrant Afrobeat and pop-infused sound",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/haira_1.jpg",
       slug: "manu-dibango",
     },
   ]

@@ -43,7 +43,7 @@ export default function Home() {
               date="April 20, 2025"
               spotifyUrl="https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929"
               youtubeUrl="https://youtu.be/kD-wI-jZQBY"
-              imageSrc="/images/jovi3.png"
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/jovi3.png"
             />
 
             <PodcastCard
@@ -78,7 +78,7 @@ export default function Home() {
             <ArtistCard
               name="Tayc"
               description="Blending French R&B with Cameroonian roots, Tayc is a global sensation."
-              imageSrc="/images/tayc-1.jpg"
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/tayc-1.jpg"
               slug="tayc"
             />
 
@@ -92,7 +92,7 @@ export default function Home() {
             <ArtistCard
               name="Kang"
               description="Afrobeats and urban music innovator from Cameroon."
-              imageSrc="/images/kang_Gang.png"
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/kang_Gang.png"
               slug="kang"
             />
           </div>

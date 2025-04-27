@@ -9,7 +9,7 @@ export default function EpisodesPage() {
       date: "March 15, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/images/sepo.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/sepo.jpg",
     },
     {
       title: "Exploring Cameroon's Afrobeats Scene",
@@ -17,7 +17,7 @@ export default function EpisodesPage() {
       date: "April 20, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
       youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "/images/jail_time_records_cover.png",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/jail_time_records_cover.png",
     },
     {
       title: "Spotlight on Douala's Music Scene",
@@ -25,7 +25,7 @@ export default function EpisodesPage() {
       date: "May 5, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/images/ber_boys.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/ber_boys.jpg",
     },
   ]
 
