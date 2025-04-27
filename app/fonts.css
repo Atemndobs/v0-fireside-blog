@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;600&display=swap');
+
+:root {
+  --font-headline: 'Bricolage Grotesque', sans-serif;
+  --font-paragraph: 'Bricolage Grotesque', sans-serif;
+  --font-weight-headline: 600;
+  --font-weight-paragraph: 300;
+}
+
+.headline, .font-headline {
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-headline);
+}
+
+p, .paragraph, .font-paragraph {
+  font-family: var(--font-paragraph);
+  font-weight: var(--font-weight-paragraph);
+}
+
+body {
+  font-family: var(--font-paragraph);
+  font-weight: var(--font-weight-paragraph);
+}

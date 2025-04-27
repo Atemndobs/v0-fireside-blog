@@ -33,6 +33,12 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    --font-paragraph: 'Bricolage Grotesque Light', sans-serif;
+    --font-weight-paragraph: 300;
+
+    --font-headline: 'Bricolage Grotesque SemiBold', sans-serif;
+    --font-weight-headline: 600;
   }
 
   .dark {
@@ -72,6 +78,20 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html, body {
+    font-family: var(--font-paragraph);
+    font-weight: var(--font-weight-paragraph);
+  }
+
+  h1, h2, h3, h4, h5, h6, .headline, .font-headline {
+    font-family: var(--font-headline);
+    font-weight: var(--font-weight-headline);
+  }
+
+  p, .paragraph, .font-paragraph {
+    font-family: var(--font-paragraph);
+    font-weight: var(--font-weight-paragraph);
   }
 }
 

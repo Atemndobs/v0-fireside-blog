@@ -33,7 +33,7 @@ export default function ArtistPage({ params }: ArtistPageProps) {
           His hit singles like "N'y pense plus" feature subtle Bikutsi rhythms, a traditional music style from Cameroon, while "Le temps" incorporates elements of Makossa, another Cameroonian genre made famous by artists like Manu Dibango.
         </p>
       `,
-      imageSrc: "/images/tayc.jpg",
+      imageSrc: "/images/tayc-2.jpeg",
       spotifyUrl: "https://open.spotify.com/artist/0BlSV1sY8ePR5nj1tDmvXY",
       youtubeUrl: "https://www.youtube.com/channel/UCrPLMg2zy1xFOdLUsDg8aTw",
       instagramUrl: "https://www.instagram.com/taycofficial",
