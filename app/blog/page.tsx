@@ -24,7 +24,7 @@ export default function BlogPage() {
       excerpt: "From Kang to Ronis Goliath, these artists are putting Cameroon on the global music map.",
       date: "March 10, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/images/kang.jpg",
+      imageSrc: "/images/kang_Gang.png",
       slug: "cameroonian-artists-global",
     },
     {
@@ -32,7 +32,7 @@ export default function BlogPage() {
       excerpt: "Tracing the journey of one of Cameroon's most distinctive musical styles through the decades.",
       date: "February 20, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/reniss-afrocharts.jpg",
       slug: "evolution-of-bikutsi",
     },
     {
@@ -40,7 +40,7 @@ export default function BlogPage() {
       excerpt: "Behind the artists are innovative studios and producers creating the soundtrack of modern Cameroon.",
       date: "February 5, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/ber_boys.jpg",
       slug: "douala-music-scene",
     },
     {
@@ -48,7 +48,7 @@ export default function BlogPage() {
       excerpt: "How Cameroonian artists abroad are influencing global sounds while staying connected to their roots.",
       date: "January 18, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/ko-c.webp",
       slug: "cameroon-diaspora-music",
     },
   ]
