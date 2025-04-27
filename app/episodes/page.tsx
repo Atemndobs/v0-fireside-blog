@@ -9,7 +9,7 @@ export default function EpisodesPage() {
       date: "April 20, 2025",
       spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
       youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/sepo.jpg",
     },
     {
       title: "The Rise of Cameroonian Artists Globally",
@@ -18,22 +18,6 @@ export default function EpisodesPage() {
       spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
       youtubeUrl: "https://youtu.be/mw4xLb59QO0",
       imageSrc: "/images/hens_headshot.jpeg",
-    },
-    {
-      title: "The Legacy of Manu Dibango and Modern Cameroonian Jazz",
-      description: "Exploring how Manu Dibango's influence continues to shape Cameroonian music today.",
-      date: "February 10, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
-      youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "/placeholder.svg?height=300&width=300",
-    },
-    {
-      title: "Bikutsi to Afrobeats: The Evolution of Cameroonian Music",
-      description: "Tracing the journey of Cameroonian music from traditional styles to contemporary Afrobeats.",
-      date: "January 25, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
-      youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "/placeholder.svg?height=300&width=300",
     },
     {
       title: "Spotlight on Douala's Underground Music Scene",
