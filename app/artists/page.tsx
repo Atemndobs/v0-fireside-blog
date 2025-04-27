@@ -1,4 +1,3 @@
-import { Music } from "lucide-react"
 import { ArtistCard } from "@/components/artist-card"
 
 export default function ArtistsPage() {
@@ -7,7 +6,7 @@ export default function ArtistsPage() {
     {
       name: "Tayc",
       description: "French-Cameroonian R&B sensation taking Europe by storm",
-      imageSrc: "/images/tayc.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/tayc-2.jpeg",
       slug: "tayc",
     },
     {
@@ -25,7 +24,7 @@ export default function ArtistsPage() {
     {
       name: "Kang",
       description: "Innovative artist pushing the boundaries of Afrobeats with electronic influences",
-      imageSrc: "/images/kang.jpg",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/kang_Gang.png",
       slug: "kang",
     },
     {
@@ -35,9 +34,9 @@ export default function ArtistsPage() {
       slug: "ronis-goliath",
     },
     {
-      name: "Manu Dibango",
-      description: "Legendary saxophonist and pioneer of Afro-jazz and makossa",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      name: "Haira Berylie",
+      description: "Singer-songwriter known for her vibrant Afrobeat and pop-infused sound",
+      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/haira_1.jpg",
       slug: "manu-dibango",
     },
   ]
@@ -55,7 +54,6 @@ export default function ArtistsPage() {
         </div>
 
         <div className="flex items-center gap-4 mb-12">
-          <Music size={32} className="text-blue-600" />
           <h2 className="text-3xl md:text-4xl font-black">FEATURED ARTISTS</h2>
         </div>
 

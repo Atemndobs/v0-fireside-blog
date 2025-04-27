@@ -1,4 +1,3 @@
-import { Mic } from "lucide-react"
 import { BlogCard } from "@/components/blog-card"
 
 export default function BlogPage() {
@@ -25,7 +24,7 @@ export default function BlogPage() {
       excerpt: "From Kang to Ronis Goliath, these artists are putting Cameroon on the global music map.",
       date: "March 10, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/images/kang.jpg",
+      imageSrc: "/images/kang_Gang.png",
       slug: "cameroonian-artists-global",
     },
     {
@@ -33,7 +32,7 @@ export default function BlogPage() {
       excerpt: "Tracing the journey of one of Cameroon's most distinctive musical styles through the decades.",
       date: "February 20, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/reniss-afrocharts.jpg",
       slug: "evolution-of-bikutsi",
     },
     {
@@ -41,7 +40,7 @@ export default function BlogPage() {
       excerpt: "Behind the artists are innovative studios and producers creating the soundtrack of modern Cameroon.",
       date: "February 5, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/ber_boys.jpg",
       slug: "douala-music-scene",
     },
     {
@@ -49,7 +48,7 @@ export default function BlogPage() {
       excerpt: "How Cameroonian artists abroad are influencing global sounds while staying connected to their roots.",
       date: "January 18, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/placeholder.svg?height=300&width=300",
+      imageSrc: "/images/ko-c.webp",
       slug: "cameroon-diaspora-music",
     },
   ]
@@ -59,14 +58,13 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-block bg-purple-600 px-4 py-2 text-white font-black rotate-1 mb-4">BLOG</div>
-          <h1 className="text-4xl md:text-6xl font-black mb-4">THE FIRESIDE TRIBE</h1>
+          <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
           <p className="text-xl max-w-2xl mx-auto">
             Insights, interviews, and deep dives into Cameroon's vibrant music scene and the artists shaping its future.
           </p>
         </div>
 
         <div className="flex items-center gap-4 mb-12">
-          <Mic size={32} className="text-purple-600" />
           <h2 className="text-3xl md:text-4xl font-black">LATEST ARTICLES</h2>
         </div>
 

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Headphones, Music, Mic, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { PodcastCard } from "@/components/podcast-card"
 import { ArtistCard } from "@/components/artist-card"
@@ -15,7 +15,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1">PODCAST</div>
-              <h1 className="text-5xl md:text-7xl font-black leading-tight">THE FIRESIDE TRIBE</h1>
+              <h1 className="text-5xl md:text-7xl font-headline leading-tight">The Fireside Tribe</h1>
               <p className="text-xl md:text-2xl font-bold">Celebrating Cameroon's Talents in Afrobeats Scene</p>
               <Link
                 href="#latest-episodes"
@@ -24,14 +24,7 @@ export default function Home() {
                 LISTEN NOW
               </Link>
             </div>
-            <div className="relative h-[300px] md:h-[400px] border-8 border-white rotate-2 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.5)]">
-              <Image
-                src="images/hero_2.png"
-                alt="The Fireside Tribe Podcast"
-                fill
-                className="object-cover"
-              />
-            </div>
+            {/* Removed empty hero image container as per user request */}
           </div>
         </div>
       </section>
@@ -40,7 +33,6 @@ export default function Home() {
       <section id="latest-episodes" className="py-16 px-4 bg-yellow-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12">
-            <Headphones size={32} className="text-red-500" />
             <h2 className="text-4xl md:text-5xl font-black">LATEST EPISODES</h2>
           </div>
 
@@ -51,7 +43,7 @@ export default function Home() {
               date="April 20, 2025"
               spotifyUrl="https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929"
               youtubeUrl="https://youtu.be/kD-wI-jZQBY"
-              imageSrc="https://minio.goose-neon.ts.net/curator/assets/Riverside_pod.png"
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/jovi3.png"
             />
 
             <PodcastCard
@@ -60,7 +52,7 @@ export default function Home() {
               date="March 15, 2025"
               spotifyUrl="https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3"
               youtubeUrl="https://youtu.be/mw4xLb59QO0"
-              imageSrc="https://minio.goose-neon.ts.net/curator/assets/anyang_afro.jpg"
+              imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.byPUWkyhJy3cnZmiGVzu8QHaHb%26pid%3DApi&f=1"
             />
           </div>
 
@@ -79,7 +71,6 @@ export default function Home() {
       <section className="py-16 px-4 bg-blue-100 border-y-8 border-black">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12">
-            <Music size={32} className="text-blue-600" />
             <h2 className="text-4xl md:text-5xl font-black">FEATURED ARTISTS</h2>
           </div>
 
@@ -87,7 +78,7 @@ export default function Home() {
             <ArtistCard
               name="Tayc"
               description="Blending French R&B with Cameroonian roots, Tayc is a global sensation."
-              imageSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.GT52o8jwL9nkeMfVCdrcCwHaEK%26pid%3DApi&f=1&ipt=a1bf8e12f282ed6f183eb210d9d28afbdd07cbe8003b6e6e1c4d1aeaafb44ec8&ipo=images"
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/tayc-1.jpg"
               slug="tayc"
             />
 
@@ -99,10 +90,10 @@ export default function Home() {
             />
 
             <ArtistCard
-              name="Yame"
-              description="Rising star with a unique blend of Afrobeats and contemporary R&B"
-              imageSrc="https://i1.sndcdn.com/artworks-cjRshmfASz1ThAw9-EjsXyA-t500x500.jpg"
-              slug="yame"
+              name="Kang"
+              description="Afrobeats and urban music innovator from Cameroon."
+              imageSrc="https://minio.goose-neon.ts.net/curator/assets/kang_Gang.png"
+              slug="kang"
             />
           </div>
 
@@ -121,7 +112,6 @@ export default function Home() {
       <section className="py-16 px-4 bg-yellow-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12">
-            <Mic size={32} className="text-purple-600" />
             <h2 className="text-4xl md:text-5xl font-black">LATEST ARTICLES</h2>
           </div>
 

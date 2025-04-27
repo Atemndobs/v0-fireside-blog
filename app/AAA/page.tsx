@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Headphones, Mic, Radio, ArrowRight, ChevronDown, Play, Pause } from "lucide-react"
+import { Headphones, Radio, ArrowRight, ChevronDown, Play, Pause } from "lucide-react"
 
 export default function AAAPage() {
   const [activeAuthor, setActiveAuthor] = useState<string | null>(null)
@@ -305,9 +305,6 @@ export default function AAAPage() {
                       <ul className="space-y-2">
                         {author.funFacts.map((fact, index) => (
                           <li key={index} className="flex items-start gap-2">
-                            <div className={`${author.color} text-white p-1 mt-1`}>
-                              <Mic size={16} />
-                            </div>
                             <span>{fact}</span>
                           </li>
                         ))}
@@ -358,14 +355,12 @@ export default function AAAPage() {
 
             <div className="bg-blue-600 p-6 border-4 border-white relative overflow-hidden group">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <Mic size={32} className="mb-4" />
               <h3 className="font-bold text-2xl mb-4">THE STORYTELLER</h3>
               <p>Atem N. crafts the narratives and conversations that bring the music to life</p>
             </div>
 
             <div className="bg-purple-600 p-6 border-4 border-white relative overflow-hidden group">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <Headphones size={32} className="mb-4" />
               <h3 className="font-bold text-2xl mb-4">THE CONNECTOR</h3>
               <p>Anyang bridges cultures and opens doors for Cameroonian music globally</p>
             </div>

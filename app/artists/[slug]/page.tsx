@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Music, Youtube, Instagram, Twitter } from "lucide-react"
+import { ArrowLeft, Youtube, Instagram, Twitter } from "lucide-react"
 
 interface ArtistPageProps {
   params: {
@@ -33,7 +33,7 @@ export default function ArtistPage({ params }: ArtistPageProps) {
           His hit singles like "N'y pense plus" feature subtle Bikutsi rhythms, a traditional music style from Cameroon, while "Le temps" incorporates elements of Makossa, another Cameroonian genre made famous by artists like Manu Dibango.
         </p>
       `,
-      imageSrc: "/images/tayc.jpg",
+      imageSrc: "/images/tayc-2.jpeg",
       spotifyUrl: "https://open.spotify.com/artist/0BlSV1sY8ePR5nj1tDmvXY",
       youtubeUrl: "https://www.youtube.com/channel/UCrPLMg2zy1xFOdLUsDg8aTw",
       instagramUrl: "https://www.instagram.com/taycofficial",
@@ -147,7 +147,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-green-600 transition-colors"
                   >
-                    <Music size={20} />
                     <span>Spotify</span>
                   </a>
 
@@ -189,7 +188,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                 <ul className="space-y-2">
                   {artist.popularSongs.map((song, index) => (
                     <li key={index} className="flex items-center gap-2">
-                      <Music size={16} className="text-blue-600" />
                       <span>{song}</span>
                     </li>
                   ))}
