@@ -8,6 +8,8 @@ import { getFeaturedArtists, getLatestEpisodes, getLatestBlogPosts } from "@/lib
 import type { Artist, BlogPost, Episode } from "@/lib/types/content"
 import { getAssetUrl } from "@/lib/utils/assets"
 
+export const revalidate = 0 // Force dynamic rendering (no cache)
+
 type PodcastCardData = {
   title: string
   description: string
