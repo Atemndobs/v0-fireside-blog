@@ -69,7 +69,7 @@ export function ArtistsAdminList({ artists }: ArtistsAdminListProps) {
       </div>
 
       {view === "cards" ? (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {artists.map((artist) => (
             <div key={artist.id} className="rounded-xl bg-slate-900/80 px-3 py-4 shadow-sm shadow-black/10">
               <div className="flex items-center gap-3">

@@ -79,7 +79,7 @@ export function EpisodesAdminList({ episodes }: EpisodesAdminListProps) {
       </div>
 
       {view === "cards" ? (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {episodes.map((episode) => (
             <div key={episode.id} className="rounded-xl bg-slate-900/80 px-3 py-4 shadow-sm shadow-black/10">
               <p className="text-xs uppercase tracking-wide text-slate-500">{getDateLabel(episode.published_at)}</p>

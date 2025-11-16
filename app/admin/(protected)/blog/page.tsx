@@ -21,7 +21,7 @@ export default async function AdminBlogIndex() {
           </div>
         ) : (
           <>
-            <div className="space-y-4 p-4 md:hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 md:hidden">
               {posts.map((post) => (
                 <article
                   key={post.id}
@@ -32,9 +32,14 @@ export default async function AdminBlogIndex() {
                   </p>
                   <h2 className="mt-1 text-lg font-semibold">{post.title}</h2>
                   <p className="text-sm text-slate-400">/{post.slug}</p>
-                  <div className="mt-3 flex gap-2 text-xs text-slate-400">
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-400">
                     <span className="rounded-full bg-slate-800 px-3 py-1">
                       {post.featured ? "Featured" : "Standard"}
+                    </span>
+                    <span
+                      className={`rounded-full px-3 py-1 ${post.published ? "bg-emerald-500/20 text-emerald-300" : "bg-slate-800 text-slate-300"}`}
+                    >
+                      {post.published ? "Published" : "Hidden"}
                     </span>
                   </div>
                   <Button asChild size="sm" className="mt-4 w-full" variant="secondary">
@@ -50,6 +55,7 @@ export default async function AdminBlogIndex() {
                     <th className="px-4 py-3">Title</th>
                     <th className="px-4 py-3">Slug</th>
                     <th className="px-4 py-3">Published</th>
+                    <th className="px-4 py-3">Status</th>
                     <th className="px-4 py-3">Featured</th>
                     <th className="px-4 py-3">Actions</th>
                   </tr>
@@ -61,6 +67,13 @@ export default async function AdminBlogIndex() {
                       <td className="px-4 py-3 text-slate-400">{post.slug}</td>
                       <td className="px-4 py-3">
                         {post.published_at ? new Date(post.published_at).toLocaleDateString() : "—"}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${post.published ? "bg-emerald-500/10 text-emerald-300" : "bg-slate-800 text-slate-300"}`}
+                        >
+                          {post.published ? "Published" : "Hidden"}
+                        </span>
                       </td>
                       <td className="px-4 py-3">{post.featured ? "Yes" : "No"}</td>
                       <td className="px-4 py-3">
