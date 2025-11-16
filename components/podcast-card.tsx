@@ -14,7 +14,31 @@ interface PodcastCardProps {
 }
 
 export function PodcastCard({ title, description, date, spotifyUrl, youtubeUrl, imageSrc }: PodcastCardProps) {
-  const [activeTab, setActiveTab] = useState<"spotify" | "youtube">("spotify")
+  const [activeTab, setActiveTab] = useState<"spotify" | "youtube">("youtube")
+
+  // Extract YouTube video ID from various URL formats
+  const getYouTubeVideoId = (url: string) => {
+    if (!url) return ""
+
+    // Handle youtu.be/VIDEO_ID format
+    if (url.includes("youtu.be/")) {
+      return url.split("youtu.be/")[1]?.split("?")[0] || ""
+    }
+
+    // Handle youtube.com/watch?v=VIDEO_ID format
+    if (url.includes("watch?v=")) {
+      const urlParams = new URLSearchParams(url.split("?")[1])
+      return urlParams.get("v") || ""
+    }
+
+    // Fallback to splitting by /
+    return url.split("/").pop()?.split("?")[0] || ""
+  }
+
+  // Truncate description to approximately 150 characters
+  const truncatedDescription = description.length > 150
+    ? description.substring(0, 150) + "..."
+    : description
 
   return (
     <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all">
@@ -30,7 +54,7 @@ export function PodcastCard({ title, description, date, spotifyUrl, youtubeUrl, 
           <span>{date}</span>
         </div>
 
-        <p className="text-gray-700">{description}</p>
+        <p className="text-gray-700 line-clamp-2">{truncatedDescription}</p>
 
         <div className="mt-4">
           <div className="flex border-b-4 border-black">
@@ -68,7 +92,7 @@ export function PodcastCard({ title, description, date, spotifyUrl, youtubeUrl, 
               <iframe
                 width="100%"
                 height="152"
-                src={`https://www.youtube.com/embed/${youtubeUrl.split("/").pop()}`}
+                src={`https://www.youtube.com/embed/${getYouTubeVideoId(youtubeUrl)}`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

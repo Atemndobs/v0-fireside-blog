@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Calendar, User, ArrowLeft } from "lucide-react"
+import { getAssetUrl } from "@/lib/utils/assets"
 
 interface BlogPostPageProps {
   params: {
@@ -17,7 +18,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       title: "How Tayc is Redefining French R&B with Cameroonian Influences",
       date: "April 15, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/images/tayc.jpg",
+      imageSrc: getAssetUrl("images/tayc.jpg"),
       content: `
         <p class="text-lg mb-4">
           Tayc, born Julien Bouadjie, has emerged as one of the most exciting voices in French R&B, bringing his Cameroonian heritage to the forefront of his music and creating a unique sound that's captivating audiences across Europe and beyond.
@@ -62,7 +63,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       title: "The Legacy of Manu Dibango Through James BKS",
       date: "March 28, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/images/james-bks.jpg",
+      imageSrc: getAssetUrl("images/james-bks.jpg"),
       content: `
         <p class="text-lg mb-4">
           When legendary Cameroonian saxophonist and composer Manu Dibango passed away in 2020, many wondered who would carry forward his musical legacy. The answer was already making waves in the music industry: his son, James BKS.
@@ -107,7 +108,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       title: "5 Cameroonian Artists Making Waves Internationally",
       date: "March 10, 2025",
       author: "The Fireside Tribe",
-      imageSrc: "/images/kang.jpg",
+      imageSrc: getAssetUrl("images/kang.jpg"),
       content: `
         <p class="text-lg mb-4">
           Cameroon has long been a hotbed of musical talent, but in recent years, a new generation of artists has been breaking through on the international scene. From innovative producers to soulful vocalists, these artists are putting Cameroon on the global music map while staying true to their roots.

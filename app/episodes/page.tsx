@@ -1,33 +1,48 @@
 import { PodcastCard } from "@/components/podcast-card"
+import { getAllEpisodes } from "@/lib/repositories/content"
+import type { Episode } from "@/lib/types/content"
+import { getAssetUrl } from "@/lib/utils/assets"
 
-export default function EpisodesPage() {
-  // In a real app, you would fetch this data from an API or CMS
-  const episodes = [
-    {
-      title: "The Rise of Cameroonian Artists Globally",
-      description: "Discover how Cameroonian artists are making waves on the international music scene.",
-      date: "March 15, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
-      youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/sepo.jpg",
-    },
-    {
-      title: "Exploring Cameroon's Afrobeats Scene",
-      description: "Dive into the rich sounds and rhythms of Cameroon's growing Afrobeats movement.",
-      date: "April 20, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
-      youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/jail_time_records_cover.png",
-    },
-    {
-      title: "Spotlight on Douala's Music Scene",
-      description: "Exploring the vibrant underground music culture in Cameroon's largest city.",
-      date: "May 5, 2025",
-      spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
-      youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-      imageSrc: "https://minio.goose-neon.ts.net/curator/assets/ber_boys.jpg",
-    },
-  ]
+const fallbackEpisodes = [
+  {
+    title: "The Rise of Cameroonian Artists Globally",
+    description: "Discover how Cameroonian artists are making waves on the international music scene.",
+    date: "March 15, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
+    youtubeUrl: "https://youtu.be/mw4xLb59QO0",
+    imageSrc: getAssetUrl("images/sepo.jpg"),
+  },
+  {
+    title: "Exploring Cameroon's Afrobeats Scene",
+    description: "Dive into the rich sounds and rhythms of Cameroon's growing Afrobeats movement.",
+    date: "April 20, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
+    youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
+    imageSrc: getAssetUrl("images/jail_time_records_cover.png"),
+  },
+  {
+    title: "Spotlight on Douala's Music Scene",
+    description: "Exploring the vibrant underground music culture in Cameroon's largest city.",
+    date: "May 5, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
+    youtubeUrl: "https://youtu.be/mw4xLb59QO0",
+    imageSrc: getAssetUrl("images/ber_boys.jpg"),
+  },
+]
+
+const toCardData = (episodes: Episode[]) =>
+  episodes.map((episode) => ({
+    title: episode.title,
+    description: episode.description ?? "Fresh conversations from the Fireside Tribe.",
+    date: episode.publishedAt ?? "New episode",
+    spotifyUrl: episode.spotifyUrl ?? "",
+    youtubeUrl: episode.youtubeUrl ?? "",
+    imageSrc: episode.coverImageUrl ?? "/placeholder.svg",
+  }))
+
+export default async function EpisodesPage() {
+  const episodes = await getAllEpisodes()
+  const cards = episodes.length ? toCardData(episodes) : fallbackEpisodes
 
   return (
     <div className="min-h-screen bg-yellow-50 py-16 px-4">
@@ -46,16 +61,8 @@ export default function EpisodesPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {episodes.map((episode, index) => (
-            <PodcastCard
-              key={index}
-              title={episode.title}
-              description={episode.description}
-              date={episode.date}
-              spotifyUrl={episode.spotifyUrl}
-              youtubeUrl={episode.youtubeUrl}
-              imageSrc={episode.imageSrc}
-            />
+          {cards.map((episode) => (
+            <PodcastCard key={`${episode.title}-${episode.date}`} {...episode} />
           ))}
         </div>
 

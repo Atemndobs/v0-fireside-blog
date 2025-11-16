@@ -1,14 +1,6 @@
-const CACHE_NAME = 'fireside-pwa-cache-v1';
+const CACHE_NAME = 'fireside-pwa-cache-v2';
 const urlsToCache = [
   '/',
-  '/icons/manifest.json',
-  '/icons/android-icon-36x36.png',
-  '/icons/android-icon-48x48.png',
-  '/icons/android-icon-72x72.png',
-  '/icons/android-icon-96x96.png',
-  '/icons/android-icon-144x144.png',
-  '/icons/android-icon-192x192.png',
-  // Add more assets as needed
 ];
 
 self.addEventListener('install', event => {
