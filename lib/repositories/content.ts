@@ -32,6 +32,7 @@ const mapArtist = (artist: any): Artist => ({
   slug: artist.slug,
   shortDescription: artist.short_description,
   profileImageUrl: artist.profile_image_url,
+  countryCode: artist.country_code ?? null,
   orderRank: artist.order_rank ?? 0,
   featured: Boolean(artist.featured),
 })
@@ -99,6 +100,7 @@ async function queryArtists(options: QueryOptions = {}) {
         slug,
         short_description,
         profile_image_url,
+        country_code,
         order_rank,
         featured
       `,

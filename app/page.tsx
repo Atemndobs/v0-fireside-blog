@@ -24,6 +24,7 @@ type ArtistCardData = {
   description: string
   imageSrc: string
   slug: string
+  countryCode?: string | null
 }
 
 type BlogCardData = {
@@ -61,18 +62,21 @@ const fallbackArtists: ArtistCardData[] = [
     description: "Blending French R&B with Cameroonian roots, Tayc is a global sensation.",
     imageSrc: getAssetUrl("images/tayc-1.jpg"),
     slug: "tayc",
+    countryCode: "FR",
   },
   {
     name: "James BKS",
     description: "Producer and son of Manu Dibango blending African sounds with hip-hop",
     imageSrc: "https://chartroommedia.com/wp-content/uploads/2023/10/1R3A1242_JAMESBKS_FIFOU.jpg",
     slug: "james-bks",
+    countryCode: "FR",
   },
   {
     name: "Kang",
     description: "Afrobeats and urban music innovator from Cameroon.",
     imageSrc: getAssetUrl("images/kang_Gang.png"),
     slug: "kang",
+    countryCode: "CM",
   },
 ]
 
@@ -120,6 +124,7 @@ const toArtistCardData = (artists: Artist[]): ArtistCardData[] =>
     description: artist.shortDescription ?? "Cameroonian talent spotlight.",
     imageSrc: artist.profileImageUrl ?? "/placeholder.svg",
     slug: artist.slug,
+    countryCode: artist.countryCode,
   }))
 
 const toBlogCardData = (posts: BlogPost[]): BlogCardData[] =>

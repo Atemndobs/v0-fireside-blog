@@ -70,10 +70,10 @@ export function EpisodeForm({ initialData }: EpisodeFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <Card className="border-slate-800 bg-slate-900 text-white">
-        <CardHeader>
+        <CardHeader className="p-4 sm:p-6">
           <CardTitle>Episode Details</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 px-4 pb-6 sm:px-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="title">Title *</Label>

@@ -10,6 +10,7 @@ export interface ArtistFormData {
   profile_image_url: string
   profile_image_alt: string
   genre?: string
+  country_code?: string
   featured: boolean
   order_rank: number
 }

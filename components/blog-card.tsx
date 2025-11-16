@@ -24,7 +24,7 @@ export function BlogCard({ title, excerpt, date, author, imageSrc, slug }: BlogC
           />
         </div>
 
-        <h3 className="text-xl font-bold mb-2 line-clamp-2">{title}</h3>
+        <h3 className="text-xl font-bold mb-2 line-clamp-1">{title}</h3>
 
         <div className="flex items-center gap-4 mb-3 text-sm text-gray-600">
           <div className="flex items-center gap-1">
@@ -37,7 +37,9 @@ export function BlogCard({ title, excerpt, date, author, imageSrc, slug }: BlogC
           </div>
         </div>
 
-        <p className="text-gray-700 line-clamp-3">{excerpt}</p>
+        <p className="text-gray-700 line-clamp-1" title={excerpt}>
+          {excerpt}
+        </p>
 
         <div className="mt-4 inline-block bg-purple-600 text-white px-4 py-2 font-bold border-2 border-black">
           READ MORE

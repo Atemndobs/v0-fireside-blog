@@ -9,45 +9,52 @@ const fallbackArtists = [
     description: "French-Cameroonian R&B sensation taking Europe by storm",
     imageSrc: getAssetUrl("images/tayc-2.jpeg"),
     slug: "tayc",
+    countryCode: "FR",
   },
   {
     name: "James BKS",
     description: "Producer and son of Manu Dibango blending African sounds with hip-hop",
     imageSrc: "https://s.rfi.fr/media/display/f7d06e02-06bd-11ed-9bb2-005056a90284/w:980/p:16x9/000_9C79L4.jpg",
     slug: "james-bks",
+    countryCode: "FR",
   },
   {
     name: "Yame",
     description: "Rising star with a unique blend of Afrobeats and contemporary R&B",
     imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZtvYLD7t1tmbgdQ_EVBwAmg3Apx2pnT7sUsYo0tGfW4M8smpyvtxE2hTnh7h1k7V6ZWM&usqp=CAU",
     slug: "yame",
+    countryCode: "BE",
   },
   {
     name: "Kang",
     description: "Innovative artist pushing the boundaries of Afrobeats with electronic influences",
     imageSrc: getAssetUrl("images/kang_Gang.png"),
     slug: "kang",
+    countryCode: "CM",
   },
   {
     name: "Ronid Goliath",
     description: "DJ and producer bringing Cameroonian rhythms to dance floors worldwide",
     imageSrc: "https://africanmusiclibrary.org/_next/image?url=https%3A%2F%2Fd31btwpnsku5px.cloudfront.net%2F9e53c72a1e06.jpg&w=3840&q=75",
     slug: "ronis-goliath",
+    countryCode: "CM",
   },
   {
     name: "Haira Berylie",
     description: "Singer-songwriter known for her vibrant Afrobeat and pop-infused sound",
     imageSrc: getAssetUrl("images/haira_1.jpg"),
     slug: "haira-berylie",
+    countryCode: "CM",
   },
 ]
 
 const toCardData = (artists: Artist[]) =>
   artists.map((artist) => ({
     name: artist.name,
-    description: artist.shortDescription ?? "Cameroon’s vibrant talent.",
+    description: artist.shortDescription ?? "Cameroon's vibrant talent.",
     imageSrc: artist.profileImageUrl ?? "/placeholder.svg",
     slug: artist.slug,
+    countryCode: artist.countryCode,
   }))
 
 export default async function ArtistsPage() {

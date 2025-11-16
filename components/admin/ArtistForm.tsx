@@ -8,8 +8,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ImageUploadField } from "@/components/admin/ImageUploadField"
 import { createArtist, updateArtist, type ArtistFormData } from "@/lib/actions/artists"
+import { POPULAR_COUNTRIES } from "@/lib/utils/countries"
 
 interface ArtistFormProps {
   initialData?: any
@@ -25,6 +33,7 @@ export function ArtistForm({ initialData }: ArtistFormProps) {
     profile_image_url: initialData?.profile_image_url || "",
     profile_image_alt: initialData?.profile_image_alt || "",
     genre: initialData?.genre || "",
+    country_code: initialData?.country_code || "CM",
     featured: initialData?.featured || false,
     order_rank: initialData?.order_rank || 0,
   })
@@ -135,6 +144,27 @@ export function ArtistForm({ initialData }: ArtistFormProps) {
               />
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="country_code">Country</Label>
+              <Select
+                value={formData.country_code}
+                onValueChange={(value) => handleChange("country_code", value)}
+              >
+                <SelectTrigger className="border-slate-700 bg-slate-800 text-white">
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent className="border-slate-700 bg-slate-800 text-white">
+                  {POPULAR_COUNTRIES.map((country) => (
+                    <SelectItem key={country.code} value={country.code}>
+                      {country.flag} {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="order_rank">Display Order</Label>
               <Input

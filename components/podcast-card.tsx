@@ -47,7 +47,7 @@ export function PodcastCard({ title, description, date, spotifyUrl, youtubeUrl, 
           <Image src={imageSrc || "/placeholder.svg"} alt={title} fill className="object-cover" />
         </div>
 
-        <h3 className="text-2xl font-bold line-clamp-2">{title}</h3>
+        <h3 className="text-2xl font-bold line-clamp-1">{title}</h3>
 
         <div className="flex items-center gap-2 text-gray-600">
           <Calendar size={16} />
