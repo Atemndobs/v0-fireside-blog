@@ -16,7 +16,9 @@ export interface Artist {
   slug: string
   shortDescription: string | null
   profileImageUrl: string | null
+  countryCode: string | null
   orderRank: number
+  featured: boolean
 }
 
 export interface BlogPost {

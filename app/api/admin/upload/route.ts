@@ -5,13 +5,26 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const bucket = process.env.NEXT_PUBLIC_ASSET_BUCKET ?? "fireside_assets"
 
-if (!supabaseUrl || !serviceKey) {
-  throw new Error("Supabase environment variables are missing for uploads.")
+let supabaseClient: ReturnType<typeof createClient> | null = null
+const getSupabaseClient = () => {
+  if (!supabaseUrl || !serviceKey) {
+    return null
+  }
+  if (!supabaseClient) {
+    supabaseClient = createClient(supabaseUrl, serviceKey)
+  }
+  return supabaseClient
 }
 
-const supabase = createClient(supabaseUrl, serviceKey)
-
 export async function POST(request: Request) {
+  const supabase = getSupabaseClient()
+  if (!supabase) {
+    return NextResponse.json(
+      { error: "Supabase environment variables are missing for uploads." },
+      { status: 500 }
+    )
+  }
+
   const formData = await request.formData()
   const file = formData.get("file") as File | null
   const folder = (formData.get("folder") as string) || "uploads"

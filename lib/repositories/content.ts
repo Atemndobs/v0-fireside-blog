@@ -32,7 +32,9 @@ const mapArtist = (artist: any): Artist => ({
   slug: artist.slug,
   shortDescription: artist.short_description,
   profileImageUrl: artist.profile_image_url,
+  countryCode: artist.country_code ?? null,
   orderRank: artist.order_rank ?? 0,
+  featured: Boolean(artist.featured),
 })
 
 const mapBlogPost = (post: any): BlogPost => ({
@@ -46,7 +48,12 @@ const mapBlogPost = (post: any): BlogPost => ({
   featured: Boolean(post.featured),
 })
 
-async function queryEpisodes(limit?: number) {
+type QueryOptions = {
+  limit?: number
+  featuredOnly?: boolean
+}
+
+async function queryEpisodes(options: QueryOptions = {}) {
   const supabase = getSupabaseServerClient()
   let builder = supabase
     .from("fireside_episodes")
@@ -65,8 +72,12 @@ async function queryEpisodes(limit?: number) {
     )
     .order("published_at", { ascending: false })
 
-  if (limit) {
-    builder = builder.limit(limit)
+  if (options.featuredOnly) {
+    builder = builder.eq("featured", true)
+  }
+
+  if (options.limit) {
+    builder = builder.limit(options.limit)
   }
 
   const { data, error } = await builder
@@ -78,7 +89,7 @@ async function queryEpisodes(limit?: number) {
   return (data ?? []).map(mapEpisode)
 }
 
-async function queryArtists(limit?: number) {
+async function queryArtists(options: QueryOptions = {}) {
   const supabase = getSupabaseServerClient()
   let builder = supabase
     .from("fireside_artists")
@@ -89,13 +100,19 @@ async function queryArtists(limit?: number) {
         slug,
         short_description,
         profile_image_url,
-        order_rank
+        country_code,
+        order_rank,
+        featured
       `,
     )
     .order("order_rank", { ascending: true })
 
-  if (limit) {
-    builder = builder.limit(limit)
+  if (options.featuredOnly) {
+    builder = builder.eq("featured", true)
+  }
+
+  if (options.limit) {
+    builder = builder.limit(options.limit)
   }
 
   const { data, error } = await builder
@@ -107,7 +124,7 @@ async function queryArtists(limit?: number) {
   return (data ?? []).map(mapArtist)
 }
 
-async function queryBlogPosts(limit?: number) {
+async function queryBlogPosts(options: QueryOptions = {}) {
   const supabase = getSupabaseServerClient()
   let builder = supabase
     .from("fireside_blog_posts")
@@ -125,8 +142,12 @@ async function queryBlogPosts(limit?: number) {
     )
     .order("published_at", { ascending: false })
 
-  if (limit) {
-    builder = builder.limit(limit)
+  if (options.featuredOnly) {
+    builder = builder.eq("featured", true)
+  }
+
+  if (options.limit) {
+    builder = builder.limit(options.limit)
   }
 
   const { data, error } = await builder
@@ -138,11 +159,16 @@ async function queryBlogPosts(limit?: number) {
   return (data ?? []).map(mapBlogPost)
 }
 
-export const getFeaturedEpisodes = (limit = 2): Promise<Episode[]> => queryEpisodes(limit)
+export const getFeaturedEpisodes = (limit = 2): Promise<Episode[]> =>
+  queryEpisodes({ limit, featuredOnly: true })
+export const getLatestEpisodes = (limit = 2): Promise<Episode[]> =>
+  queryEpisodes({ limit })
 export const getAllEpisodes = (): Promise<Episode[]> => queryEpisodes()
 
-export const getFeaturedArtists = (limit = 3): Promise<Artist[]> => queryArtists(limit)
+export const getFeaturedArtists = (limit = 3): Promise<Artist[]> =>
+  queryArtists({ limit, featuredOnly: true })
 export const getAllArtists = (): Promise<Artist[]> => queryArtists()
 
-export const getLatestBlogPosts = (limit = 3): Promise<BlogPost[]> => queryBlogPosts(limit)
+export const getLatestBlogPosts = (limit = 3): Promise<BlogPost[]> =>
+  queryBlogPosts({ limit })
 export const getAllBlogPosts = (): Promise<BlogPost[]> => queryBlogPosts()

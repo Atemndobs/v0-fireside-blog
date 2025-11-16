@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { ReactNode, useState } from "react"
+import { Button, type ButtonProps } from "@/components/ui/button"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,12 +16,21 @@ import {
 import { deleteArtist } from "@/lib/actions/artists"
 import { useRouter } from "next/navigation"
 
-interface DeleteArtistButtonProps {
+interface DeleteArtistButtonProps extends ButtonProps {
   id: string
   name: string
+  children?: ReactNode
 }
 
-export function DeleteArtistButton({ id, name }: DeleteArtistButtonProps) {
+export function DeleteArtistButton({
+  id,
+  name,
+  className,
+  children,
+  variant = "destructive",
+  size = "sm",
+  ...buttonProps
+}: DeleteArtistButtonProps) {
   const [isDeleting, setIsDeleting] = useState(false)
   const router = useRouter()
 
@@ -44,8 +53,14 @@ export function DeleteArtistButton({ id, name }: DeleteArtistButtonProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" disabled={isDeleting}>
-          Delete
+        <Button
+          variant={variant}
+          size={size}
+          disabled={isDeleting}
+          className={className}
+          {...buttonProps}
+        >
+          {children ?? "Delete"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="border-slate-800 bg-slate-900 text-white">

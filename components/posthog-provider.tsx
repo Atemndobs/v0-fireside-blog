@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
 import { usePathname, useSearchParams } from "next/navigation"
@@ -138,7 +138,9 @@ export const AnalyticsProvider = ({ children }: { children: ReactNode }) => {
   return (
     <PostHogProvider client={posthog}>
       {children}
-      <RouteChangeTracker />
+      <Suspense fallback={null}>
+        <RouteChangeTracker />
+      </Suspense>
     </PostHogProvider>
   )
 }

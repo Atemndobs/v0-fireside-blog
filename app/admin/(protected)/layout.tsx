@@ -8,14 +8,11 @@ export default function ProtectedAdminLayout({ children }: { children: ReactNode
     <AdminGuard>
       <div className="dark min-h-screen bg-slate-950 text-white">
         <header className="border-b border-slate-800 bg-slate-900">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
             <Link href="/admin" className="font-black tracking-wide">
-              Fireside Tribe · Admin
+              Dashboard
             </Link>
             <nav className="flex items-center gap-4 text-sm text-slate-300">
-              <Link href="/admin" className="hover:text-white">
-                Dashboard
-              </Link>
               <Link href="/" className="hover:text-white">
                 View site
               </Link>
@@ -23,7 +20,7 @@ export default function ProtectedAdminLayout({ children }: { children: ReactNode
             </nav>
           </div>
         </header>
-        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+        <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">{children}</main>
       </div>
     </AdminGuard>
   )
