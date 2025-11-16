@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href={manifestUrl} />
-        <meta name="theme-color" content="#EF4444" />
+        <meta name="theme-color" content="#000000" />
         <link rel="apple-touch-icon" sizes="180x180" href={appleIcon} />
         <link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
         <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />

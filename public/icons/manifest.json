@@ -4,8 +4,8 @@
   "description": "Celebrating and promoting Cameroonian music and the Fireside Tribe podcast",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#EF4444",
-  "theme_color": "#EF4444",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "scope": "/",
   "icons": [

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fireside-pwa-cache-v3';
+const CACHE_NAME = 'fireside-pwa-cache-v4';
 const urlsToCache = [
   '/',
   '/icons/favicon-circle-512.png',
