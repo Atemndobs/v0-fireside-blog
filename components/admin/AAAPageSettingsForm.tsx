@@ -5,12 +5,20 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { updateAAAPageSettings, type AAAPageSettingsFormData } from "@/lib/actions/aaa-page"
 
 type Props = {
   initialData?: Partial<AAAPageSettingsFormData>
+}
+
+const toDateInputValue = (value?: string | null) => {
+  if (!value) return ""
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ""
+  return date.toISOString().slice(0, 16)
 }
 
 const withDefaults = (data?: Partial<AAAPageSettingsFormData>): AAAPageSettingsFormData => ({
@@ -29,6 +37,9 @@ const withDefaults = (data?: Partial<AAAPageSettingsFormData>): AAAPageSettingsF
   connector_title: data?.connector_title ?? "THE CONNECTOR",
   connector_description: data?.connector_description ?? "",
   cta_button_text: data?.cta_button_text ?? "HEAR THEM IN ACTION",
+  published: data?.published ?? false,
+  publish_at: toDateInputValue(data?.publish_at ?? null),
+  unpublish_at: toDateInputValue(data?.unpublish_at ?? null),
 })
 
 export function AAAPageSettingsForm({ initialData }: Props) {
@@ -149,6 +160,48 @@ export function AAAPageSettingsForm({ initialData }: Props) {
                 onChange={(event) => handleChange("cta_button_text", event.target.value)}
                 className="border-slate-700 bg-slate-800 text-white"
               />
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h3 className="text-lg font-semibold">Publishing</h3>
+            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-800 bg-slate-950/40 p-4">
+              <div>
+                <Label htmlFor="published" className="text-base">Visibility</Label>
+                <p className="text-sm text-slate-400">Toggle on when the A³ page is ready for the public site.</p>
+              </div>
+              <Switch
+                id="published"
+                checked={formData.published}
+                onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, published: checked }))}
+              />
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="publish_at">Schedule publish (optional)</Label>
+                <Input
+                  type="datetime-local"
+                  id="publish_at"
+                  value={formData.publish_at ?? ""}
+                  onChange={(event) => handleChange("publish_at", event.target.value)}
+                  className="border-slate-700 bg-slate-800 text-white"
+                  step={60}
+                />
+                <p className="text-xs text-slate-400">Leave blank to keep the page unpublished until you flip the switch.</p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="unpublish_at">Schedule unpublish (optional)</Label>
+                <Input
+                  type="datetime-local"
+                  id="unpublish_at"
+                  value={formData.unpublish_at ?? ""}
+                  onChange={(event) => handleChange("unpublish_at", event.target.value)}
+                  className="border-slate-700 bg-slate-800 text-white"
+                  step={60}
+                />
+                <p className="text-xs text-slate-400">Automatically hide the page after a campaign or event.</p>
+              </div>
             </div>
           </section>
 

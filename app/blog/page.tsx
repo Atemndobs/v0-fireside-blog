@@ -60,7 +60,7 @@ const toCardData = (posts: BlogPost[]) =>
     excerpt: post.excerpt ?? "Read the latest editorial from the newsroom.",
     date: post.publishedAt ?? "Coming soon",
     author: post.author ?? "The Fireside Tribe",
-    imageSrc: post.featuredImageUrl ?? "/placeholder.svg",
+    imageSrc: post.featuredImageUrl ? getAssetUrl(post.featuredImageUrl) : "/placeholder.svg",
     slug: post.slug,
   }))
 

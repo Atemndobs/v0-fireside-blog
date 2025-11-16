@@ -5,7 +5,11 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { AdminNavIcon } from "./AdminNavIcon";
 
-export default function MobileHeader() {
+type MobileHeaderProps = {
+  showAAAPage: boolean;
+};
+
+export default function MobileHeader({ showAAAPage }: MobileHeaderProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
@@ -40,7 +44,9 @@ export default function MobileHeader() {
           <Link href="/episodes" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>EPISODES</Link>
           <Link href="/artists" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>ARTISTS</Link>
           <Link href="/blog" className="hover:text-red-500" onClick={() => setMobileNavOpen(false)}>BLOG</Link>
-          <Link href="/AAA" className="hover:text-purple-500" onClick={() => setMobileNavOpen(false)}>A³</Link>
+          {showAAAPage && (
+            <Link href="/AAA" className="hover:text-purple-500" onClick={() => setMobileNavOpen(false)}>A³</Link>
+          )}
         </nav>
       )}
     </>

@@ -30,4 +30,5 @@ export interface BlogPost {
   publishedAt: string | null
   featuredImageUrl: string | null
   featured: boolean
+  published: boolean
 }

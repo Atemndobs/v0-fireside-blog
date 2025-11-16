@@ -46,6 +46,7 @@ const mapBlogPost = (post: any): BlogPost => ({
   publishedAt: formatDate(post.published_at),
   featuredImageUrl: post.featured_image_url,
   featured: Boolean(post.featured),
+  published: Boolean(post.published ?? true),
 })
 
 type QueryOptions = {
@@ -137,10 +138,12 @@ async function queryBlogPosts(options: QueryOptions = {}) {
         author,
         published_at,
         featured_image_url,
-        featured
+        featured,
+        published
       `,
     )
     .order("published_at", { ascending: false })
+    .eq("published", true)
 
   if (options.featuredOnly) {
     builder = builder.eq("featured", true)

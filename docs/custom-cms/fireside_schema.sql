@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS public.fireside_blog_posts (
   content jsonb NOT NULL DEFAULT '[]'::jsonb,
   seo jsonb DEFAULT '{}'::jsonb,
   featured boolean NOT NULL DEFAULT false,
+  published boolean NOT NULL DEFAULT true,
   reading_time_minutes smallint CHECK (reading_time_minutes IS NULL OR reading_time_minutes > 0),
   created_at timestamptz NOT NULL DEFAULT timezone('utc', now()),
   updated_at timestamptz NOT NULL DEFAULT timezone('utc', now())
@@ -216,6 +217,9 @@ CREATE TABLE IF NOT EXISTS public.fireside_aaa_page_settings (
   connector_title text NOT NULL DEFAULT 'THE CONNECTOR',
   connector_description text NOT NULL,
   cta_button_text text NOT NULL DEFAULT 'HEAR THEM IN ACTION',
+  published boolean NOT NULL DEFAULT false,
+  publish_at timestamptz,
+  unpublish_at timestamptz,
   updated_at timestamptz NOT NULL DEFAULT timezone('utc', now())
 );
 

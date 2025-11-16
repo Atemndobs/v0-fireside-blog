@@ -21,6 +21,8 @@ const initialState = { message: null, error: null }
 export const BlogForm = ({ post }: Props) => {
   const router = useRouter()
   const [imageUrl, setImageUrl] = useState(post.featured_image_url ?? "")
+  const [featured, setFeatured] = useState(post.featured ?? false)
+  const [published, setPublished] = useState(post.published ?? true)
   const [state, formAction] = useActionState(updateBlogPost, initialState)
   const [isPending, startTransition] = useTransition()
 
@@ -40,6 +42,8 @@ export const BlogForm = ({ post }: Props) => {
       className="space-y-6"
     >
       <input type="hidden" name="id" value={post.id} />
+      <input type="hidden" name="featured" value={featured ? "on" : "off"} />
+      <input type="hidden" name="published" value={published ? "on" : "off"} />
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="title">Title *</Label>
@@ -85,9 +89,21 @@ export const BlogForm = ({ post }: Props) => {
 
       <ImageUploadField label="Featured image" value={imageUrl} folder="blog" onChange={setImageUrl} />
 
-      <div className="flex items-center gap-3">
-        <Switch name="featured" defaultChecked={post.featured} id="featured" />
-        <Label htmlFor="featured">Featured on homepage</Label>
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Switch id="published" checked={published} onCheckedChange={setPublished} />
+          <div>
+            <Label htmlFor="published">Visible on site</Label>
+            <p className="text-sm text-muted-foreground">Toggle off to hide this story until it&apos;s ready.</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch id="featured" checked={featured} onCheckedChange={setFeatured} />
+          <div>
+            <Label htmlFor="featured">Featured on homepage</Label>
+            <p className="text-sm text-muted-foreground">Appears in the Latest Articles carousel.</p>
+          </div>
+        </div>
       </div>
 
       {state.error && (

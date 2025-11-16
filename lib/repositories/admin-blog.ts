@@ -11,6 +11,7 @@ export type AdminBlogPost = {
   featured_image_url: string | null
   featured_image_alt: string | null
   featured: boolean
+  published: boolean
 }
 
 export async function fetchAdminBlogPosts(): Promise<AdminBlogPost[]> {
@@ -28,7 +29,8 @@ export async function fetchAdminBlogPosts(): Promise<AdminBlogPost[]> {
         published_at,
         featured_image_url,
         featured_image_alt,
-        featured
+        featured,
+        published
       `,
     )
     .order("published_at", { ascending: false })
@@ -38,7 +40,11 @@ export async function fetchAdminBlogPosts(): Promise<AdminBlogPost[]> {
     return []
   }
 
-  return data as AdminBlogPost[]
+  return (data ?? []).map((post) => ({
+    ...post,
+    featured: Boolean(post.featured),
+    published: Boolean(post.published),
+  })) as AdminBlogPost[]
 }
 
 export async function fetchAdminBlogPost(id: string): Promise<AdminBlogPost | null> {
@@ -56,7 +62,8 @@ export async function fetchAdminBlogPost(id: string): Promise<AdminBlogPost | nu
         published_at,
         featured_image_url,
         featured_image_alt,
-        featured
+        featured,
+        published
       `,
     )
     .eq("id", id)
@@ -67,5 +74,9 @@ export async function fetchAdminBlogPost(id: string): Promise<AdminBlogPost | nu
     return null
   }
 
-  return data as AdminBlogPost
+  return {
+    ...data,
+    featured: Boolean(data.featured),
+    published: Boolean(data.published),
+  } as AdminBlogPost
 }

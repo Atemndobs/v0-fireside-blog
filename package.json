@@ -1,5 +1,5 @@
 {
-  "name": "my-v0-project",
+  "name": "the-fireside-tribe",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sync:episodes": "node scripts/sync-youtube-episodes.js"
+    "sync:episodes": "node scripts/sync-youtube-episodes.js",
+    "fix:images": "node scripts/fix-all-image-urls.js",
+    "debug:storage": "node scripts/debug-storage.js",
+    "migrate:s3": "node scripts/migrate-s3-to-supabase.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

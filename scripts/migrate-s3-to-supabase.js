@@ -11,14 +11,14 @@ function convertS3ToSupabase(s3Url) {
     return s3Url; // Return unchanged if not an S3 URL
   }
 
-  // Extract the path after /images/
+  // Extract the path after the bucket name
   // From: https://fireside_assets.s3.amazonaws.com/images/kang_Gang.png
-  // To: https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/kang_Gang.png
+  // To: https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/images/kang_Gang.png
 
-  const match = s3Url.match(/\/images\/(.+)$/);
+  const match = s3Url.match(/fireside_assets\.s3\.amazonaws\.com\/(.+)$/);
   if (match && match[1]) {
-    const filename = match[1];
-    return `https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/${filename}`;
+    const path = match[1];
+    return `https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/${path}`;
   }
 
   return s3Url;

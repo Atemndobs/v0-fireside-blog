@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getAllEpisodesForAdmin } from "@/lib/actions/episodes"
 import { EpisodesAdminList } from "@/components/admin/EpisodesAdminList"
+import { SyncEpisodesButton } from "@/components/admin/SyncEpisodesButton"
 
 export default async function EpisodesAdminPage() {
   const result = await getAllEpisodesForAdmin()
@@ -17,9 +18,12 @@ export default async function EpisodesAdminPage() {
             Manage podcast episodes, sync from Spotify, and feature episodes on the homepage.
           </p>
         </div>
-        <Link href="/admin/episodes/new">
-          <Button className="w-full md:w-auto">Create Episode</Button>
-        </Link>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <SyncEpisodesButton />
+          <Link href="/admin/episodes/new">
+            <Button className="w-full md:w-auto">Create Episode</Button>
+          </Link>
+        </div>
       </div>
 
       <Card className="border-slate-800 bg-slate-900 text-white">

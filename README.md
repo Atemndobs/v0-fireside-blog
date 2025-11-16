@@ -18,6 +18,16 @@ What the command does:
 
 > Tip: run this weekly (or whenever new videos drop) so `/episodes` stays current. The script is idempotent—it only adds missing entries.
 
+## Supabase Auth invite redirect
+
+Invites sent from `/admin/team` need to know which frontend should handle the one-time link. Set the following environment variable in `.env.local` (and on Vercel):
+
+```
+SUPABASE_INVITE_REDIRECT_URL=https://firesidetribe.com/admin/login
+```
+
+Use the exact domain for each environment (localhost, staging, production) so new teammates land on the right app after accepting their invitation.
+
 ## Development
 
 ```bash

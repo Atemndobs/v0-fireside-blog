@@ -17,6 +17,9 @@ export interface AAAPageSettingsFormData {
   connector_title: string
   connector_description: string
   cta_button_text: string
+  published: boolean
+  publish_at: string | null
+  unpublish_at: string | null
 }
 
 export interface AAAQuoteFormData {
@@ -73,9 +76,20 @@ export async function getAAAPageSettings() {
 export async function updateAAAPageSettings(data: AAAPageSettingsFormData) {
   const supabase = getSupabaseServerClient()
 
+  const { publish_at, unpublish_at, ...rest } = data
+
   const { error, data: payload } = await supabase
     .from("fireside_aaa_page_settings")
-    .upsert({ id: AAA_SETTINGS_ID, ...data, updated_at: new Date().toISOString() }, { onConflict: "id" })
+    .upsert(
+      {
+        id: AAA_SETTINGS_ID,
+        ...rest,
+        publish_at: publish_at ? publish_at : null,
+        unpublish_at: unpublish_at ? unpublish_at : null,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "id" },
+    )
     .select()
     .single()
 

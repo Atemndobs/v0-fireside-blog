@@ -46,6 +46,13 @@ const fallbackArtists = [
     slug: "haira-berylie",
     countryCode: "CM",
   },
+  {
+    name: "Clerel",
+    description: "Cameroonian-born soul singer crafting vintage-inspired R&B from his base in Canada.",
+    imageSrc: "https://mobile-img.lpcdn.ca/lpca/924x/r3996/e8d4f304-d35a-11ea-b8ad-02fe89184577.jpg",
+    slug: "clerel",
+    countryCode: "CA",
+  },
 ]
 
 const toCardData = (artists: Artist[]) =>

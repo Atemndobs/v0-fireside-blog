@@ -4,14 +4,13 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import "./fonts.css"
 import Link from "next/link"
-import { Menu } from "lucide-react"
 import { ThemeProvider } from "@/components/theme-provider"
 import MobileHeader from "@/components/MobileHeader"
-import ThemeSwitcher from "@/components/ThemeSwitcher"
 import { AnalyticsProvider } from "@/components/posthog-provider"
-import { getAssetUrl } from "@/lib/utils/assets"
 import { AdminNavIcon } from "@/components/AdminNavIcon"
-import { isContentLive, publishingConfig } from "@/lib/config/publishing"
+import { SocialFollowStack } from "@/components/SocialFollowStack"
+import { isContentLive } from "@/lib/config/publishing"
+import { getAAAPagePublishingWindow } from "@/lib/repositories/pages"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -34,7 +33,8 @@ export default function RootLayout({
   const favicon16 = "/icons/favicon-16x16.png"
   const shortcutIcon = "/icons/favicon-circle-512.png"
 
-  const showAAAPage = isContentLive(publishingConfig.aaaPage)
+  const publishWindow = await getAAAPagePublishingWindow()
+  const showAAAPage = isContentLive(publishWindow)
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -89,7 +89,7 @@ export default function RootLayout({
                 </nav>
 
                 {/* Mobile Burger Menu - now in separate client component */}
-                <MobileHeader />
+                <MobileHeader showAAAPage={showAAAPage} />
               </div>
             </header>
 
@@ -133,41 +133,7 @@ export default function RootLayout({
 
                 <div>
                   <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2">CONNECT</h3>
-                  <div className="flex flex-col gap-2">
-                    <a
-                      href="https://open.spotify.com/show/4Pmd0zCt4r1UCEI2mTJdtl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                      aria-label="Follow The Fireside Tribe on Spotify"
-                    >
-                      FOLLOW ON SPOTIFY
-                    </a>
-                    <a
-                      href="https://youtube.com/channel/yourchannel"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-red-500 transition-colors"
-                    >
-                      YouTube
-                    </a>
-                    <a
-                      href="https://instagram.com/yourhandle"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-red-500 transition-colors"
-                    >
-                      Instagram
-                    </a>
-                    <a
-                      href="https://twitter.com/yourhandle"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-red-500 transition-colors"
-                    >
-                      Twitter
-                    </a>
-                  </div>
+                  <SocialFollowStack zone="footer" variant="inline" />
                 </div>
               </div>
 

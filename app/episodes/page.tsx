@@ -1,4 +1,5 @@
 import { PodcastCard } from "@/components/podcast-card"
+import { SocialFollowStack } from "@/components/SocialFollowStack"
 import { getAllEpisodes } from "@/lib/repositories/content"
 import type { Episode } from "@/lib/types/content"
 import { getAssetUrl } from "@/lib/utils/assets"
@@ -66,18 +67,8 @@ export default async function EpisodesPage() {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <div className="inline-block bg-black text-white px-6 py-3 font-bold border-4 border-black shadow-[8px_8px_0px_0px_rgba(239,68,68,1)]">
-            <a
-              href="https://open.spotify.com/show/4Pmd0zCt4r1UCEI2mTJdtl"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-              aria-label="Follow The Fireside Tribe on Spotify"
-            >
-              FOLLOW ON SPOTIFY
-            </a>
-          </div>
+        <div className="mt-16">
+          <SocialFollowStack zone="episodes_cta" heading="Follow The Fireside Tribe" />
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server"
+import type { PublishWindow } from "@/lib/config/publishing"
 import type { AAAAuthor, AAAPageData, AAAPageSettings, AAAFunFact, AAAQuote, AboutPageContent } from "@/lib/types/pages"
 
 const ABOUT_PAGE_ID = "00000000-0000-0000-0000-000000000001"
@@ -55,6 +56,9 @@ const aaaFallback = (): AAAPageData => ({
     connectorTitle: "THE CONNECTOR",
     connectorDescription: "Anyang bridges cultures and opens doors for Cameroonian music globally",
     ctaButtonText: "HEAR THEM IN ACTION",
+    published: false,
+    publishAt: null,
+    unpublishAt: null,
     updatedAt: null,
   },
   quotes: [
@@ -239,6 +243,9 @@ const mapAAASettings = (row: any): AAAPageSettings => ({
   connectorDescription:
     row.connector_description ?? "Anyang bridges cultures and opens doors for Cameroonian music globally",
   ctaButtonText: row.cta_button_text ?? "HEAR THEM IN ACTION",
+  published: Boolean(row.published ?? false),
+  publishAt: row.publish_at ?? null,
+  unpublishAt: row.unpublish_at ?? null,
   updatedAt: row.updated_at ?? null,
 })
 
@@ -334,5 +341,29 @@ export async function fetchAAAPageData(): Promise<AAAPageData> {
   } catch (error) {
     console.warn("[Supabase] Unexpected error loading AAA page content", error)
     return aaaFallback()
+  }
+}
+
+export async function getAAAPagePublishingWindow(): Promise<PublishWindow> {
+  try {
+    const supabase = getSupabaseServerClient()
+    const { data, error } = await supabase
+      .from("fireside_aaa_page_settings")
+      .select("published, publish_at, unpublish_at")
+      .eq("id", AAA_PAGE_SETTINGS_ID)
+      .single()
+
+    if (error || !data) {
+      throw error
+    }
+
+    return {
+      published: Boolean(data.published),
+      publishAt: data.publish_at ?? null,
+      unpublishAt: data.unpublish_at ?? null,
+    }
+  } catch (error) {
+    console.warn("[Supabase] Failed to load AAA publishing window", error)
+    return { published: false, publishAt: null, unpublishAt: null }
   }
 }

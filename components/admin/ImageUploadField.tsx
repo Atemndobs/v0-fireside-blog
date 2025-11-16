@@ -6,6 +6,7 @@ import { Upload, Loader2, ImageOff } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { getAssetUrl } from "@/lib/utils/assets"
 
 type Props = {
   label: string
@@ -51,20 +52,31 @@ export const ImageUploadField = ({ label, value, folder = "uploads", onChange }:
     }
   }
 
+  // Get the full URL for display (handles both relative paths and full URLs)
+  const displayUrl = value ? getAssetUrl(value) : ""
+
   return (
     <div className="space-y-2">
       <Label className="text-white">{label}</Label>
       {value ? (
         <div className="relative h-64 overflow-hidden rounded-lg border border-slate-700 bg-slate-800">
           {imageError ? (
-            <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-400">
+            <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-slate-400">
               <ImageOff className="h-12 w-12" />
-              <p className="text-sm">Failed to load image</p>
-              <p className="max-w-md truncate text-xs text-slate-500">{value}</p>
+              <p className="text-sm font-medium">Failed to load image</p>
+              <div className="max-w-full overflow-x-auto rounded bg-slate-900 p-2">
+                <p className="text-xs font-mono text-slate-300 whitespace-nowrap">{displayUrl}</p>
+              </div>
+              <button
+                onClick={() => navigator.clipboard.writeText(displayUrl)}
+                className="text-xs text-blue-400 hover:text-blue-300 underline"
+              >
+                Copy URL
+              </button>
             </div>
           ) : (
             <Image
-              src={value}
+              src={displayUrl}
               alt={label}
               fill
               className="object-cover"
@@ -107,9 +119,21 @@ export const ImageUploadField = ({ label, value, folder = "uploads", onChange }:
       </div>
       {error && <p className="text-sm text-red-400">{error}</p>}
       {value && !imageError && (
-        <p className="text-xs text-slate-500">
-          Current URL: <span className="text-slate-400">{value}</span>
-        </p>
+        <div className="space-y-1">
+          <p className="text-xs text-slate-500">Current URL:</p>
+          <div className="flex items-center gap-2">
+            <div className="flex-1 overflow-x-auto rounded bg-slate-900 p-2">
+              <p className="text-xs font-mono text-slate-300 whitespace-nowrap">{displayUrl}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigator.clipboard.writeText(displayUrl)}
+              className="text-xs text-blue-400 hover:text-blue-300 underline whitespace-nowrap"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

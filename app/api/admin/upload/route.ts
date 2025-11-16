@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-const bucket = process.env.NEXT_PUBLIC_ASSET_BUCKET ?? "fireside_assets"
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
+const bucket = (process.env.NEXT_PUBLIC_ASSET_BUCKET ?? "fireside_assets").trim()
 
 let supabaseClient: ReturnType<typeof createClient> | null = null
 const getSupabaseClient = () => {
@@ -46,7 +46,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  const { data: publicUrl } = supabase.storage.from(bucket).getPublicUrl(path)
+  // Manually construct the public URL to avoid any newlines from environment variables
+  // Format: https://{project}.supabase.co/storage/v1/object/public/{bucket}/{path}
+  const cleanedUrl = supabaseUrl?.trim()
+  const cleanedBucket = bucket.trim()
+  const publicUrl = `${cleanedUrl}/storage/v1/object/public/${cleanedBucket}/${path}`
 
-  return NextResponse.json({ url: publicUrl.publicUrl })
+  return NextResponse.json({ url: publicUrl })
 }

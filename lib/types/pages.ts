@@ -71,6 +71,9 @@ export type AAAPageSettings = {
   connectorTitle: string
   connectorDescription: string
   ctaButtonText: string
+  published: boolean
+  publishAt: string | null
+  unpublishAt: string | null
   updatedAt: string | null
 }
 

@@ -27,6 +27,7 @@ export async function updateBlogPost(prevState: UpdateState, formData: FormData)
     featured_image_url: formData.get("featured_image_url")?.toString() ?? null,
     featured_image_alt: formData.get("featured_image_alt")?.toString() ?? null,
     featured: formData.get("featured") === "on",
+    published: formData.get("published") === "on",
   }
 
   const { error } = await supabase.from("fireside_blog_posts").update(payload).eq("id", id)
@@ -37,5 +38,7 @@ export async function updateBlogPost(prevState: UpdateState, formData: FormData)
 
   revalidatePath("/admin/blog")
   revalidatePath(`/admin/blog/${id}`)
+  revalidatePath("/blog")
+  revalidatePath("/")
   redirect("/admin/blog")
 }

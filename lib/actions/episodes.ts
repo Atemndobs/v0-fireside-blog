@@ -2,6 +2,11 @@
 
 import { revalidatePath } from "next/cache"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
+import path from "path"
+import { promisify } from "util"
+import { exec } from "child_process"
+
+const execAsync = promisify(exec)
 
 export interface EpisodeFormData {
   title: string
@@ -126,5 +131,29 @@ export async function getAllEpisodesForAdmin() {
   } catch (error) {
     console.error("Error fetching episodes:", error)
     return { success: false, error: "Failed to fetch episodes", data: [] }
+  }
+}
+
+export async function syncEpisodesFromYoutube() {
+  const scriptPath = path.join(process.cwd(), "scripts", "sync-youtube-episodes.js")
+
+  try {
+    const { stdout } = await execAsync(`node "${scriptPath}"`, {
+      env: process.env,
+      cwd: process.cwd(),
+      maxBuffer: 1024 * 1024 * 10,
+    })
+
+    revalidatePath("/admin/episodes")
+    revalidatePath("/episodes")
+    revalidatePath("/")
+
+    return { success: true as const, message: stdout }
+  } catch (error) {
+    console.error("[Episode Sync] Failed to sync from YouTube", error)
+    return {
+      success: false as const,
+      error: error instanceof Error ? error.message : "Failed to sync episodes",
+    }
   }
 }

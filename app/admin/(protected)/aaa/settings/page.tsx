@@ -10,7 +10,7 @@ export default async function AdminAAASettingsPage() {
         <p className="text-sm uppercase tracking-wide text-slate-400">A³</p>
         <h1 className="text-3xl font-black">Page Settings</h1>
         <p className="mt-2 max-w-2xl text-slate-300">
-          Control the hero copy, Power of A³ messaging, and CTA button label on the public page.
+          Control the hero copy, Power of A³ messaging, CTA button label, and now schedule exactly when the public page goes live.
         </p>
       </div>
 

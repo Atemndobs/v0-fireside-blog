@@ -95,6 +95,59 @@ ON CONFLICT (slug) DO UPDATE SET
   featured_image_alt = EXCLUDED.featured_image_alt,
   featured = EXCLUDED.featured;
 
+-- Social Links -----------------------------------------------------------------
+INSERT INTO public.fireside_social_links (
+  id, platform, label, url, icon_slug, priority, zones, is_featured
+) VALUES
+  (
+    '40000000-0000-0000-0000-000000000001',
+    'spotify',
+    'Follow on Spotify',
+    'https://open.spotify.com/show/4Pmd0zCt4r1UCEI2mTJdtl',
+    'spotify',
+    1,
+    ARRAY['episodes_cta', 'footer']::text[],
+    true
+  ),
+  (
+    '40000000-0000-0000-0000-000000000002',
+    'youtube',
+    'Watch on YouTube',
+    'https://www.youtube.com/@TheFiresideTribe',
+    'youtube',
+    2,
+    ARRAY['episodes_cta', 'footer', 'connect_page']::text[],
+    true
+  ),
+  (
+    '40000000-0000-0000-0000-000000000003',
+    'instagram',
+    'Follow on Instagram',
+    'https://www.instagram.com/firesidetribe',
+    'instagram',
+    3,
+    ARRAY['footer', 'connect_page']::text[],
+    false
+  ),
+  (
+    '40000000-0000-0000-0000-000000000004',
+    'tiktok',
+    'Join us on TikTok',
+    'https://www.tiktok.com/@thefiresidetribe1',
+    'tiktok',
+    4,
+    ARRAY['footer', 'connect_page']::text[],
+    false
+  )
+ON CONFLICT (id) DO UPDATE SET
+  platform = EXCLUDED.platform,
+  label = EXCLUDED.label,
+  url = EXCLUDED.url,
+  icon_slug = EXCLUDED.icon_slug,
+  priority = EXCLUDED.priority,
+  zones = EXCLUDED.zones,
+  is_featured = EXCLUDED.is_featured;
+
 -- About Page -----------------------------------------------------------------
 UPDATE public.fireside_about_page
 SET

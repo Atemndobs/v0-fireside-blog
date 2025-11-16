@@ -133,7 +133,7 @@ export function ArtistsAdminList({ artists }: ArtistsAdminListProps) {
               <TableRow key={artist.id} className="border-slate-800">
                 <TableCell className="px-2 py-3">
                   {artist.profile_image_url && (
-                    <div className="relative mt-1 h-10 w-10 overflow-hidden rounded-full lg:hidden">
+                    <div className="relative mt-1 h-10 w-10 overflow-hidden rounded-full">
                       <Image
                         src={artist.profile_image_url}
                         alt={artist.profile_image_alt || artist.name}
