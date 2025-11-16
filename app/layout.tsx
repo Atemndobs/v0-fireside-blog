@@ -54,55 +54,12 @@ export default function RootLayout({
         ` }} />
       </head>
       <body className={inter.className + " font-paragraph"}>
-<<<<<<< HEAD
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <header className="bg-black text-white py-4 px-4 border-b-4 border-red-500 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-              <Link href="/" className="flex items-center gap-2">
-                <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
-              </Link>
-
-              <nav className="hidden md:flex items-center gap-8">
-                <Link href="/" className="font-bold hover:text-red-500 transition-colors">
-                  HOME
-                </Link>
-                <Link href="/episodes" className="font-bold hover:text-red-500 transition-colors">
-                  EPISODES
-                </Link>
-                <Link href="/artists" className="font-bold hover:text-red-500 transition-colors">
-                  ARTISTS
-                </Link>
-                <Link href="/blog" className="font-bold hover:text-red-500 transition-colors">
-                  BLOG
-                </Link>
-                <Link href="/about" className="font-bold hover:text-red-500 transition-colors">
-                  ABOUT
-                </Link>
-                <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
-                  A³
-                </Link>
-                <ThemeSwitcher />
-              </nav>
-
-              {/* Mobile Burger Menu - now in separate client component */}
-              <MobileHeader />
-            </div>
-          </header>
-
-          {children}
-
-          <footer className="bg-black text-white py-12 px-4 border-t-8 border-red-500">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <Link href="/" className="flex items-center gap-2 mb-4">
-=======
         <AnalyticsProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             <header className="bg-black text-white py-4 px-4 border-b-4 border-red-500 sticky top-0 z-50">
               <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <Link href="/" className="flex items-center gap-3">
                   <img src={logoUrl} alt="The Fireside Tribe Logo" className="h-10 w-10 rounded-full object-cover" />
->>>>>>> a33bda4 (Fix hydration error in MobileHeader component)
                   <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
                 </Link>
 
