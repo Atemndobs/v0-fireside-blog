@@ -11,6 +11,7 @@ import ThemeSwitcher from "@/components/ThemeSwitcher"
 import { AnalyticsProvider } from "@/components/posthog-provider"
 import { getAssetUrl } from "@/lib/utils/assets"
 import { AdminNavIcon } from "@/components/AdminNavIcon"
+import { isContentLive, publishingConfig } from "@/lib/config/publishing"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,12 +26,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const manifestUrl = getAssetUrl("icons/manifest.json")
+  // Use local icons for PWA (not Supabase) to ensure updated logos are used
+  const manifestUrl = "/icons/manifest.json"
   const logoUrl = "https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/Logo%20design.jpg"
-  const appleIcon = getAssetUrl("icons/apple-icon-180x180.png")
-  const favicon32 = getAssetUrl("icons/favicon-32x32.png")
-  const favicon16 = getAssetUrl("icons/favicon-16x16.png")
-  const shortcutIcon = getAssetUrl("icons/favicon-circle-512.png")
+  const appleIcon = "/icons/apple-icon-180x180.png"
+  const favicon32 = "/icons/favicon-32x32.png"
+  const favicon16 = "/icons/favicon-16x16.png"
+  const shortcutIcon = "/icons/favicon-circle-512.png"
+
+  const showAAAPage = isContentLive(publishingConfig.aaaPage)
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -76,9 +80,11 @@ export default function RootLayout({
                   <Link href="/blog" className="font-bold hover:text-red-500 transition-colors">
                     BLOG
                   </Link>
-                  <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
-                    A³
-                  </Link>
+                  {showAAAPage && (
+                    <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
+                      A³
+                    </Link>
+                  )}
                   <AdminNavIcon />
                 </nav>
 
@@ -117,9 +123,11 @@ export default function RootLayout({
                     <Link href="/blog" className="hover:text-red-500 transition-colors">
                       Blog
                     </Link>
-                    <Link href="/AAA" className="hover:text-purple-500 transition-colors">
-                      A³
-                    </Link>
+                    {showAAAPage && (
+                      <Link href="/AAA" className="hover:text-purple-500 transition-colors">
+                        A³
+                      </Link>
+                    )}
                   </nav>
                 </div>
 
