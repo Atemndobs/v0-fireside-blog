@@ -1,6 +1,9 @@
-const CACHE_NAME = 'fireside-pwa-cache-v2';
+const CACHE_NAME = 'fireside-pwa-cache-v3';
 const urlsToCache = [
   '/',
+  '/icons/favicon-circle-512.png',
+  '/icons/android-icon-192x192.png',
+  '/icons/apple-icon-180x180.png',
 ];
 
 self.addEventListener('install', event => {
