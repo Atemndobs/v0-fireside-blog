@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { PodcastCard } from "@/components/podcast-card"
 import { ArtistCard } from "@/components/artist-card"
 import { BlogCard } from "@/components/blog-card"
-import { getFeaturedArtists, getFeaturedEpisodes, getLatestBlogPosts } from "@/lib/repositories/content"
+import { getFeaturedArtists, getLatestEpisodes, getLatestBlogPosts } from "@/lib/repositories/content"
 import type { Artist, BlogPost, Episode } from "@/lib/types/content"
 import { getAssetUrl } from "@/lib/utils/assets"
 
@@ -132,7 +132,7 @@ const toBlogCardData = (posts: BlogPost[]): BlogCardData[] =>
 
 export default async function Home() {
   const [episodes, artists, posts] = await Promise.all([
-    getFeaturedEpisodes(2),
+    getLatestEpisodes(2),
     getFeaturedArtists(3),
     getLatestBlogPosts(3),
   ])
