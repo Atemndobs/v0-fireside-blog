@@ -78,6 +78,13 @@ const fallbackArtists: ArtistCardData[] = [
     slug: "kang",
     countryCode: "CM",
   },
+  {
+    name: "Clerel",
+    description: "Cameroonian-born soul singer based in Canada blending vintage R&B warmth with modern grooves.",
+    imageSrc: "https://mobile-img.lpcdn.ca/lpca/924x/r3996/e8d4f304-d35a-11ea-b8ad-02fe89184577.jpg",
+    slug: "clerel",
+    countryCode: "CA",
+  },
 ]
 
 const fallbackPosts: BlogCardData[] = [
@@ -197,7 +204,7 @@ export default async function Home() {
             <h2 className="text-4xl md:text-5xl font-black">LATEST EPISODES</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-3 md:gap-8">
             {episodeCards.map((episode) => (
               <PodcastCard key={episode.title} {...episode} />
             ))}

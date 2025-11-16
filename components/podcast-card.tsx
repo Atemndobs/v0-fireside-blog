@@ -41,22 +41,22 @@ export function PodcastCard({ title, description, date, spotifyUrl, youtubeUrl, 
     : description
 
   return (
-    <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all">
-      <div className="flex flex-col gap-4">
-        <div className="relative h-[200px] border-4 border-black overflow-hidden">
+    <div className="bg-white border-4 border-black p-3 md:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all">
+      <div className="flex flex-col gap-2 md:gap-4">
+        <div className="relative h-[120px] md:h-[200px] border-2 md:border-4 border-black overflow-hidden">
           <Image src={imageSrc || "/placeholder.svg"} alt={title} fill className="object-cover" />
         </div>
 
-        <h3 className="text-2xl font-bold line-clamp-1">{title}</h3>
+        <h3 className="text-sm md:text-2xl font-bold line-clamp-2">{title}</h3>
 
-        <div className="flex items-center gap-2 text-gray-600">
+        <div className="hidden md:flex items-center gap-2 text-gray-600">
           <Calendar size={16} />
           <span>{date}</span>
         </div>
 
-        <p className="text-gray-700 line-clamp-2">{truncatedDescription}</p>
+        <p className="hidden md:block text-gray-700 line-clamp-2">{truncatedDescription}</p>
 
-        <div className="mt-4">
+        <div className="mt-2 md:mt-4 hidden md:block">
           <div className="flex border-b-4 border-black">
             <button
               onClick={() => setActiveTab("spotify")}
