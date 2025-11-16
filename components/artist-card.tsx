@@ -21,7 +21,7 @@ export function ArtistCard({ name, description, imageSrc, slug }: ArtistCardProp
           />
         </div>
 
-        <h3 className="text-2xl font-bold mb-2 line-clamp-2">{name}</h3>
+        <h3 className="text-2xl font-bold mb-2 line-clamp-1">{name}</h3>
         <p className="text-gray-700 line-clamp-2">{description}</p>
 
         <div className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 font-bold border-2 border-black">
