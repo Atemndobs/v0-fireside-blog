@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import * as convex from "@/lib/convex/server"
 
 export interface BlogPostFormData {
   title: string
@@ -12,24 +12,28 @@ export interface BlogPostFormData {
   featured_image_url: string
   featured_image_alt: string
   featured: boolean
+  published?: boolean
 }
 
 export async function createBlogPost(data: BlogPostFormData) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: post, error } = await supabase.from("fireside_blog_posts").insert([data]).select().single()
-
-    if (error) {
-      console.error("Error creating blog post:", error)
-      return { success: false, error: error.message }
-    }
+    const postId = await convex.createBlogPost({
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt,
+      author: data.author,
+      publishedAt: new Date(data.published_at).getTime(),
+      featuredImageUrl: data.featured_image_url,
+      featuredImageAlt: data.featured_image_alt,
+      featured: data.featured,
+      published: data.published ?? true,
+    })
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
     revalidatePath("/")
 
-    return { success: true, data: post }
+    return { success: true, data: { id: postId } }
   } catch (error) {
     console.error("Error creating blog post:", error)
     return { success: false, error: "Failed to create blog post" }
@@ -38,25 +42,23 @@ export async function createBlogPost(data: BlogPostFormData) {
 
 export async function updateBlogPost(id: string, data: Partial<BlogPostFormData>) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: post, error } = await supabase
-      .from("fireside_blog_posts")
-      .update(data)
-      .eq("id", id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error("Error updating blog post:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.updateBlogPost(id, {
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt,
+      author: data.author,
+      publishedAt: data.published_at ? new Date(data.published_at).getTime() : undefined,
+      featuredImageUrl: data.featured_image_url,
+      featuredImageAlt: data.featured_image_alt,
+      featured: data.featured,
+      published: data.published,
+    })
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
     revalidatePath("/")
 
-    return { success: true, data: post }
+    return { success: true, data: { id } }
   } catch (error) {
     console.error("Error updating blog post:", error)
     return { success: false, error: "Failed to update blog post" }
@@ -65,14 +67,7 @@ export async function updateBlogPost(id: string, data: Partial<BlogPostFormData>
 
 export async function deleteBlogPost(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { error } = await supabase.from("fireside_blog_posts").delete().eq("id", id)
-
-    if (error) {
-      console.error("Error deleting blog post:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.deleteBlogPost(id)
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
@@ -87,16 +82,31 @@ export async function deleteBlogPost(id: string) {
 
 export async function getBlogPostById(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getBlogPostById(id)
 
-    const { data, error } = await supabase.from("fireside_blog_posts").select("*").eq("id", id).single()
-
-    if (error) {
-      console.error("Error fetching blog post:", error)
-      return { success: false, error: error.message }
+    if (!data) {
+      return { success: false, error: "Blog post not found" }
     }
 
-    return { success: true, data }
+    // Transform to snake_case for backwards compatibility
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        excerpt: data.excerpt,
+        author: data.author,
+        published_at: data.publishedAt ? new Date(data.publishedAt).toISOString() : null,
+        featured_image_url: data.featuredImageUrl,
+        featured_image_alt: data.featuredImageAlt,
+        content: data.content,
+        seo: data.seo,
+        featured: data.featured,
+        published: data.published,
+        reading_time_minutes: data.readingTimeMinutes,
+      },
+    }
   } catch (error) {
     console.error("Error fetching blog post:", error)
     return { success: false, error: "Failed to fetch blog post" }
@@ -105,19 +115,22 @@ export async function getBlogPostById(id: string) {
 
 export async function getAllBlogPostsForAdmin() {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getAllBlogPostsForAdmin()
 
-    const { data, error } = await supabase
-      .from("fireside_blog_posts")
-      .select("*")
-      .order("published_at", { ascending: false })
+    // Transform to snake_case for backwards compatibility
+    const transformedData = data.map((post: any) => ({
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      excerpt: post.excerpt,
+      author: post.author,
+      published_at: post.publishedAt ? new Date(post.publishedAt).toISOString() : null,
+      featured_image_url: post.featuredImageUrl,
+      featured: post.featured,
+      published: post.published,
+    }))
 
-    if (error) {
-      console.error("Error fetching blog posts:", error)
-      return { success: false, error: error.message, data: [] }
-    }
-
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("Error fetching blog posts:", error)
     return { success: false, error: "Failed to fetch blog posts", data: [] }

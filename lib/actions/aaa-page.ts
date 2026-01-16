@@ -1,9 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { getSupabaseServerClient } from "@/lib/supabase/server"
-
-const AAA_SETTINGS_ID = "00000000-0000-0000-0000-000000000002"
+import * as convex from "@/lib/convex/server"
 
 export interface AAAPageSettingsFormData {
   hero_subtitle: string
@@ -61,12 +59,33 @@ const revalidateAAAPaths = () => {
 
 export async function getAAAPageSettings() {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data, error } = await supabase.from("fireside_aaa_page_settings").select("*").eq("id", AAA_SETTINGS_ID).single()
-    if (error) {
-      throw error
+    const data = await convex.getAAAPageSettings()
+    if (!data) {
+      return { success: false, error: "Settings not found" }
     }
-    return { success: true, data }
+
+    // Transform to snake_case
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        hero_subtitle: data.heroSubtitle,
+        hero_description: data.heroDescription,
+        power_section_title: data.powerSectionTitle,
+        power_section_description: data.powerSectionDescription,
+        curator_title: data.curatorTitle,
+        curator_description: data.curatorDescription,
+        storyteller_title: data.storytellerTitle,
+        storyteller_description: data.storytellerDescription,
+        connector_title: data.connectorTitle,
+        connector_description: data.connectorDescription,
+        cta_button_text: data.ctaButtonText,
+        published: data.published,
+        publish_at: data.publishAt ? new Date(data.publishAt).toISOString() : null,
+        unpublish_at: data.unpublishAt ? new Date(data.unpublishAt).toISOString() : null,
+        updated_at: data.updatedAt,
+      },
+    }
   } catch (error) {
     console.error("[AAA CMS] Failed to load settings", error)
     return { success: false, error: "Unable to load AAA settings" }
@@ -74,47 +93,46 @@ export async function getAAAPageSettings() {
 }
 
 export async function updateAAAPageSettings(data: AAAPageSettingsFormData) {
-  const supabase = getSupabaseServerClient()
+  try {
+    await convex.updateAAAPageSettings({
+      heroSubtitle: data.hero_subtitle,
+      heroDescription: data.hero_description,
+      powerSectionTitle: data.power_section_title,
+      powerSectionDescription: data.power_section_description,
+      curatorTitle: data.curator_title,
+      curatorDescription: data.curator_description,
+      storytellerTitle: data.storyteller_title,
+      storytellerDescription: data.storyteller_description,
+      connectorTitle: data.connector_title,
+      connectorDescription: data.connector_description,
+      ctaButtonText: data.cta_button_text,
+      published: data.published,
+      publishAt: data.publish_at ? new Date(data.publish_at).getTime() : undefined,
+      unpublishAt: data.unpublish_at ? new Date(data.unpublish_at).getTime() : undefined,
+    })
 
-  const { publish_at, unpublish_at, ...rest } = data
-
-  const { error, data: payload } = await supabase
-    .from("fireside_aaa_page_settings")
-    .upsert(
-      {
-        id: AAA_SETTINGS_ID,
-        ...rest,
-        publish_at: publish_at ? publish_at : null,
-        unpublish_at: unpublish_at ? unpublish_at : null,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "id" },
-    )
-    .select()
-    .single()
-
-  if (error) {
+    revalidateAAAPaths()
+    return { success: true }
+  } catch (error) {
     console.error("[AAA CMS] Failed to update settings", error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : "Failed to update" }
   }
-
-  revalidateAAAPaths()
-  return { success: true, data: payload }
 }
 
 export async function getAllAAAQuotes() {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data, error } = await supabase
-      .from("fireside_aaa_quotes")
-      .select("*")
-      .order("order_rank", { ascending: true })
+    const data = await convex.getAllAAAQuotes()
 
-    if (error) {
-      throw error
-    }
+    // Transform to snake_case
+    const transformedData = data.map((q: any) => ({
+      id: q.id,
+      quote: q.quote,
+      author_name: q.authorName,
+      order_rank: q.orderRank,
+      active: q.active,
+    }))
 
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("[AAA CMS] Failed to load quotes", error)
     return { success: false, error: "Unable to load quotes", data: [] }
@@ -123,12 +141,21 @@ export async function getAllAAAQuotes() {
 
 export async function getAAAQuoteById(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data, error } = await supabase.from("fireside_aaa_quotes").select("*").eq("id", id).single()
-    if (error) {
-      throw error
+    const data = await convex.getAAAQuoteById(id)
+    if (!data) {
+      return { success: false, error: "Quote not found" }
     }
-    return { success: true, data }
+
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        quote: data.quote,
+        author_name: data.authorName,
+        order_rank: data.orderRank,
+        active: data.active,
+      },
+    }
   } catch (error) {
     console.error("[AAA CMS] Failed to load quote", error)
     return { success: false, error: "Unable to load quote" }
@@ -136,45 +163,48 @@ export async function getAAAQuoteById(id: string) {
 }
 
 export async function createAAAQuote(data: AAAQuoteFormData) {
-  const supabase = getSupabaseServerClient()
+  try {
+    const quoteId = await convex.createAAAQuote({
+      quote: data.quote,
+      authorName: data.author_name,
+      orderRank: data.order_rank,
+      active: data.active,
+    })
 
-  const { data: record, error } = await supabase.from("fireside_aaa_quotes").insert([data]).select().single()
-
-  if (error) {
+    revalidateAAAPaths()
+    return { success: true, data: { id: quoteId } }
+  } catch (error) {
     console.error("[AAA CMS] Failed to create quote", error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : "Failed to create" }
   }
-
-  revalidateAAAPaths()
-  return { success: true, data: record }
 }
 
 export async function updateAAAQuote(id: string, data: Partial<AAAQuoteFormData>) {
-  const supabase = getSupabaseServerClient()
+  try {
+    await convex.updateAAAQuote(id, {
+      quote: data.quote,
+      authorName: data.author_name,
+      orderRank: data.order_rank,
+      active: data.active,
+    })
 
-  const { data: record, error } = await supabase.from("fireside_aaa_quotes").update(data).eq("id", id).select().single()
-
-  if (error) {
+    revalidateAAAPaths()
+    return { success: true, data: { id } }
+  } catch (error) {
     console.error("[AAA CMS] Failed to update quote", error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : "Failed to update" }
   }
-
-  revalidateAAAPaths()
-  return { success: true, data: record }
 }
 
 export async function deleteAAAQuote(id: string) {
-  const supabase = getSupabaseServerClient()
-
-  const { error } = await supabase.from("fireside_aaa_quotes").delete().eq("id", id)
-
-  if (error) {
+  try {
+    await convex.deleteAAAQuote(id)
+    revalidateAAAPaths()
+    return { success: true }
+  } catch (error) {
     console.error("[AAA CMS] Failed to delete quote", error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : "Failed to delete" }
   }
-
-  revalidateAAAPaths()
-  return { success: true }
 }
 
 export async function reorderAAAQuotes(order: { id: string; order_rank: number }[]) {
@@ -182,37 +212,43 @@ export async function reorderAAAQuotes(order: { id: string; order_rank: number }
     return { success: true }
   }
 
-  const supabase = getSupabaseServerClient()
+  try {
+    // Update each quote's order rank
+    for (const { id, order_rank } of order) {
+      await convex.updateAAAQuote(id, { orderRank: order_rank })
+    }
 
-  const updates = order.map(({ id, order_rank }) =>
-    supabase.from("fireside_aaa_quotes").update({ order_rank }).eq("id", id),
-  )
-
-  const results = await Promise.all(updates)
-  const failure = results.find((result) => result.error)
-
-  if (failure?.error) {
-    console.error("[AAA CMS] Failed to reorder quotes", failure.error)
-    return { success: false, error: failure.error.message }
+    revalidateAAAPaths()
+    return { success: true }
+  } catch (error) {
+    console.error("[AAA CMS] Failed to reorder quotes", error)
+    return { success: false, error: error instanceof Error ? error.message : "Failed to reorder" }
   }
-
-  revalidateAAAPaths()
-  return { success: true }
 }
 
 export async function getAllAAAAuthors() {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data, error } = await supabase
-      .from("fireside_aaa_authors")
-      .select("*")
-      .order("order_rank", { ascending: true })
+    const data = await convex.getAllAAAAuthors()
 
-    if (error) {
-      throw error
-    }
+    // Transform to snake_case
+    const transformedData = data.map((author: any) => ({
+      id: author.id,
+      slug: author.slug,
+      name: author.name,
+      full_name: author.fullName,
+      role: author.role,
+      color_bg: author.colorBg,
+      color_text: author.colorText,
+      color_border: author.colorBorder,
+      color_shadow: author.colorShadow,
+      bio: author.bio,
+      profile_image_url: author.profileImageUrl,
+      profile_image_alt: author.profileImageAlt,
+      order_rank: author.orderRank,
+      featured: author.featured,
+    }))
 
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("[AAA CMS] Failed to load authors", error)
     return { success: false, error: "Unable to load authors", data: [] }
@@ -221,25 +257,38 @@ export async function getAllAAAAuthors() {
 
 export async function getAAAAuthorById(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
-    const [{ data, error }, { data: facts, error: factsError }] = await Promise.all([
-      supabase.from("fireside_aaa_authors").select("*").eq("id", id).single(),
-      supabase
-        .from("fireside_aaa_fun_facts")
-        .select("*")
-        .eq("author_id", id)
-        .order("order_rank", { ascending: true }),
-    ])
-
-    if (error) {
-      throw error
+    const data = await convex.getAAAAuthorById(id)
+    if (!data) {
+      return { success: false, error: "Author not found" }
     }
 
-    if (factsError) {
-      throw factsError
-    }
+    // Transform fun facts
+    const funFacts = (data.funFacts || []).map((f: any) => ({
+      id: f.id,
+      fact: f.fact,
+      order_rank: f.orderRank,
+    }))
 
-    return { success: true, data, funFacts: facts ?? [] }
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        slug: data.slug,
+        name: data.name,
+        full_name: data.fullName,
+        role: data.role,
+        color_bg: data.colorBg,
+        color_text: data.colorText,
+        color_border: data.colorBorder,
+        color_shadow: data.colorShadow,
+        bio: data.bio,
+        profile_image_url: data.profileImageUrl,
+        profile_image_alt: data.profileImageAlt,
+        order_rank: data.orderRank,
+        featured: data.featured,
+      },
+      funFacts,
+    }
   } catch (error) {
     console.error("[AAA CMS] Failed to load author", error)
     return { success: false, error: "Unable to load author" }
@@ -251,105 +300,96 @@ const filterFunFacts = (facts: AuthorFunFactInput[]) =>
     .filter((fact) => fact.fact.trim().length > 0)
     .map((fact, index) => ({
       fact: fact.fact.trim(),
-      order_rank: fact.order_rank ?? index + 1,
+      orderRank: fact.order_rank ?? index + 1,
     }))
 
-async function replaceFunFacts(authorId: string, facts: AuthorFunFactInput[]) {
-  const supabase = getSupabaseServerClient()
-
-  const filtered = filterFunFacts(facts)
-
-  const { error: deleteError } = await supabase.from("fireside_aaa_fun_facts").delete().eq("author_id", authorId)
-  if (deleteError) {
-    throw deleteError
-  }
-
-  if (filtered.length === 0) {
-    return
-  }
-
-  const records = filtered.map((fact, index) => ({
-    author_id: authorId,
-    fact: fact.fact,
-    order_rank: fact.order_rank ?? index + 1,
-  }))
-
-  const { error: insertError } = await supabase.from("fireside_aaa_fun_facts").insert(records)
-  if (insertError) {
-    throw insertError
-  }
-}
-
 export async function createAAAAuthor(data: AAAAuthorFormData, funFacts: AuthorFunFactInput[] = []) {
-  const supabase = getSupabaseServerClient()
-
-  const { data: record, error } = await supabase.from("fireside_aaa_authors").insert([data]).select().single()
-
-  if (error) {
-    console.error("[AAA CMS] Failed to create author", error)
-    return { success: false, error: error.message }
-  }
-
   try {
-    await replaceFunFacts(record.id, funFacts)
-  } catch (funFactsError) {
-    console.error("[AAA CMS] Failed to save fun facts", funFactsError)
-    return { success: false, error: "Saved author, but failed to save fun facts." }
-  }
+    const authorId = await convex.createAAAAuthor({
+      slug: data.slug,
+      name: data.name,
+      fullName: data.full_name,
+      role: data.role,
+      colorBg: data.color_bg,
+      colorText: data.color_text,
+      colorBorder: data.color_border,
+      colorShadow: data.color_shadow,
+      bio: data.bio,
+      profileImageUrl: data.profile_image_url,
+      profileImageAlt: data.profile_image_alt,
+      orderRank: data.order_rank,
+      featured: data.featured,
+    })
 
-  revalidateAAAPaths()
-  return { success: true, data: record }
+    // Save fun facts
+    if (funFacts.length > 0) {
+      const filtered = filterFunFacts(funFacts)
+      if (filtered.length > 0) {
+        await convex.replaceAuthorFunFacts(authorId as string, filtered)
+      }
+    }
+
+    revalidateAAAPaths()
+    return { success: true, data: { id: authorId } }
+  } catch (error) {
+    console.error("[AAA CMS] Failed to create author", error)
+    return { success: false, error: error instanceof Error ? error.message : "Failed to create" }
+  }
 }
 
 export async function updateAAAAuthor(id: string, data: Partial<AAAAuthorFormData>, funFacts: AuthorFunFactInput[] = []) {
-  const supabase = getSupabaseServerClient()
-
-  const { data: record, error } = await supabase.from("fireside_aaa_authors").update(data).eq("id", id).select().single()
-
-  if (error) {
-    console.error("[AAA CMS] Failed to update author", error)
-    return { success: false, error: error.message }
-  }
-
   try {
-    await replaceFunFacts(id, funFacts)
-  } catch (funFactsError) {
-    console.error("[AAA CMS] Failed to save fun facts", funFactsError)
-    return { success: false, error: "Updated author, but failed to save fun facts." }
-  }
+    await convex.updateAAAAuthor(id, {
+      slug: data.slug,
+      name: data.name,
+      fullName: data.full_name,
+      role: data.role,
+      colorBg: data.color_bg,
+      colorText: data.color_text,
+      colorBorder: data.color_border,
+      colorShadow: data.color_shadow,
+      bio: data.bio,
+      profileImageUrl: data.profile_image_url,
+      profileImageAlt: data.profile_image_alt,
+      orderRank: data.order_rank,
+      featured: data.featured,
+    })
 
-  revalidateAAAPaths()
-  return { success: true, data: record }
+    // Replace fun facts
+    const filtered = filterFunFacts(funFacts)
+    await convex.replaceAuthorFunFacts(id, filtered)
+
+    revalidateAAAPaths()
+    return { success: true, data: { id } }
+  } catch (error) {
+    console.error("[AAA CMS] Failed to update author", error)
+    return { success: false, error: error instanceof Error ? error.message : "Failed to update" }
+  }
 }
 
 export async function deleteAAAAuthor(id: string) {
-  const supabase = getSupabaseServerClient()
-
-  const { error } = await supabase.from("fireside_aaa_authors").delete().eq("id", id)
-
-  if (error) {
+  try {
+    await convex.deleteAAAAuthor(id)
+    revalidateAAAPaths()
+    return { success: true }
+  } catch (error) {
     console.error("[AAA CMS] Failed to delete author", error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : "Failed to delete" }
   }
-
-  revalidateAAAPaths()
-  return { success: true }
 }
 
 export async function getAuthorFunFacts(authorId: string) {
   try {
-    const supabase = getSupabaseServerClient()
-    const { data, error } = await supabase
-      .from("fireside_aaa_fun_facts")
-      .select("*")
-      .eq("author_id", authorId)
-      .order("order_rank", { ascending: true })
+    const data = await convex.getAuthorFunFacts(authorId)
 
-    if (error) {
-      throw error
-    }
+    const transformedData = data.map((f: any) => ({
+      id: f.id,
+      author_id: f.authorId,
+      fact: f.fact,
+      order_rank: f.orderRank,
+    }))
 
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("[AAA CMS] Failed to load fun facts", error)
     return { success: false, error: "Unable to load fun facts", data: [] }
@@ -358,7 +398,8 @@ export async function getAuthorFunFacts(authorId: string) {
 
 export async function updateAuthorFunFacts(authorId: string, funFacts: AuthorFunFactInput[]) {
   try {
-    await replaceFunFacts(authorId, funFacts)
+    const filtered = filterFunFacts(funFacts)
+    await convex.replaceAuthorFunFacts(authorId, filtered)
     revalidateAAAPaths()
     return { success: true }
   } catch (error) {

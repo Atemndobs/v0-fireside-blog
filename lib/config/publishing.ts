@@ -1,10 +1,10 @@
 export type PublishWindow = {
   published?: boolean | null
-  publishAt?: string | null
-  unpublishAt?: string | null
+  publishAt?: string | number | null
+  unpublishAt?: string | number | null
 }
 
-const parseDate = (value?: string | null) => {
+const parseDate = (value?: string | number | null) => {
   if (!value) return null
   const parsed = new Date(value)
   return Number.isNaN(parsed.getTime()) ? null : parsed

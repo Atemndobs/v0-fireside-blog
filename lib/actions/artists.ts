@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import * as convex from "@/lib/convex/server"
 
 export interface ArtistFormData {
   name: string
@@ -17,20 +17,23 @@ export interface ArtistFormData {
 
 export async function createArtist(data: ArtistFormData) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: artist, error } = await supabase.from("fireside_artists").insert([data]).select().single()
-
-    if (error) {
-      console.error("Error creating artist:", error)
-      return { success: false, error: error.message }
-    }
+    const artistId = await convex.createArtist({
+      name: data.name,
+      slug: data.slug,
+      shortDescription: data.short_description,
+      profileImageUrl: data.profile_image_url,
+      profileImageAlt: data.profile_image_alt,
+      genre: data.genre,
+      countryCode: data.country_code,
+      featured: data.featured,
+      orderRank: data.order_rank,
+    })
 
     revalidatePath("/admin/artists")
     revalidatePath("/artists")
     revalidatePath("/")
 
-    return { success: true, data: artist }
+    return { success: true, data: { id: artistId } }
   } catch (error) {
     console.error("Error creating artist:", error)
     return { success: false, error: "Failed to create artist" }
@@ -39,25 +42,23 @@ export async function createArtist(data: ArtistFormData) {
 
 export async function updateArtist(id: string, data: Partial<ArtistFormData>) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: artist, error } = await supabase
-      .from("fireside_artists")
-      .update(data)
-      .eq("id", id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error("Error updating artist:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.updateArtist(id, {
+      name: data.name,
+      slug: data.slug,
+      shortDescription: data.short_description,
+      profileImageUrl: data.profile_image_url,
+      profileImageAlt: data.profile_image_alt,
+      genre: data.genre,
+      countryCode: data.country_code,
+      featured: data.featured,
+      orderRank: data.order_rank,
+    })
 
     revalidatePath("/admin/artists")
     revalidatePath("/artists")
     revalidatePath("/")
 
-    return { success: true, data: artist }
+    return { success: true, data: { id } }
   } catch (error) {
     console.error("Error updating artist:", error)
     return { success: false, error: "Failed to update artist" }
@@ -66,14 +67,7 @@ export async function updateArtist(id: string, data: Partial<ArtistFormData>) {
 
 export async function deleteArtist(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { error } = await supabase.from("fireside_artists").delete().eq("id", id)
-
-    if (error) {
-      console.error("Error deleting artist:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.deleteArtist(id)
 
     revalidatePath("/admin/artists")
     revalidatePath("/artists")
@@ -88,16 +82,28 @@ export async function deleteArtist(id: string) {
 
 export async function getArtistById(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getArtistById(id)
 
-    const { data, error } = await supabase.from("fireside_artists").select("*").eq("id", id).single()
-
-    if (error) {
-      console.error("Error fetching artist:", error)
-      return { success: false, error: error.message }
+    if (!data) {
+      return { success: false, error: "Artist not found" }
     }
 
-    return { success: true, data }
+    // Transform to snake_case for backwards compatibility
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        name: data.name,
+        slug: data.slug,
+        short_description: data.shortDescription,
+        profile_image_url: data.profileImageUrl,
+        profile_image_alt: data.profileImageAlt,
+        genre: data.genre,
+        country_code: data.countryCode,
+        featured: data.featured,
+        order_rank: data.orderRank,
+      },
+    }
   } catch (error) {
     console.error("Error fetching artist:", error)
     return { success: false, error: "Failed to fetch artist" }
@@ -106,19 +112,23 @@ export async function getArtistById(id: string) {
 
 export async function getAllArtistsForAdmin() {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getAllArtistsForAdmin()
 
-    const { data, error } = await supabase
-      .from("fireside_artists")
-      .select("*")
-      .order("order_rank", { ascending: true })
+    // Transform to snake_case for backwards compatibility
+    const transformedData = data.map((artist: any) => ({
+      id: artist.id,
+      name: artist.name,
+      slug: artist.slug,
+      short_description: artist.shortDescription,
+      profile_image_url: artist.profileImageUrl,
+      profile_image_alt: artist.profileImageAlt,
+      genre: artist.genre,
+      country_code: artist.countryCode,
+      featured: artist.featured,
+      order_rank: artist.orderRank,
+    }))
 
-    if (error) {
-      console.error("Error fetching artists:", error)
-      return { success: false, error: error.message, data: [] }
-    }
-
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("Error fetching artists:", error)
     return { success: false, error: "Failed to fetch artists", data: [] }

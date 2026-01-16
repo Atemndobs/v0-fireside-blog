@@ -1,14 +1,12 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { supabaseBrowserClient } from "@/lib/supabase/client"
+import { useClerk } from "@clerk/nextjs"
 
 export const LogoutButton = () => {
-  const router = useRouter()
-  const handleSignOut = async () => {
-    const supabase = supabaseBrowserClient()
-    await supabase.auth.signOut()
-    router.replace("/admin/login")
+  const { signOut } = useClerk()
+
+  const handleSignOut = () => {
+    signOut({ redirectUrl: "/admin/login" })
   }
 
   return (

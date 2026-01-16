@@ -1,4 +1,4 @@
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import * as convex from "@/lib/convex/server"
 
 export type AdminBlogPost = {
   id: string
@@ -15,68 +15,51 @@ export type AdminBlogPost = {
 }
 
 export async function fetchAdminBlogPosts(): Promise<AdminBlogPost[]> {
-  const supabase = getSupabaseServerClient()
-  const { data, error } = await supabase
-    .from("fireside_blog_posts")
-    .select(
-      `
-        id,
-        title,
-        slug,
-        excerpt,
-        author,
-        content,
-        published_at,
-        featured_image_url,
-        featured_image_alt,
-        featured,
-        published
-      `,
-    )
-    .order("published_at", { ascending: false })
+  try {
+    const data = await convex.getAllBlogPostsForAdmin()
 
-  if (error || !data) {
+    return data.map((post: any) => ({
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      excerpt: post.excerpt ?? null,
+      author: post.author ?? null,
+      content: null, // Content not returned in list view
+      published_at: post.publishedAt ? new Date(post.publishedAt).toISOString() : null,
+      featured_image_url: post.featuredImageUrl ?? null,
+      featured_image_alt: null,
+      featured: Boolean(post.featured),
+      published: Boolean(post.published),
+    }))
+  } catch (error) {
     console.warn("[Admin] Failed to load blog posts", error)
     return []
   }
-
-  return (data ?? []).map((post) => ({
-    ...post,
-    featured: Boolean(post.featured),
-    published: Boolean(post.published),
-  })) as AdminBlogPost[]
 }
 
 export async function fetchAdminBlogPost(id: string): Promise<AdminBlogPost | null> {
-  const supabase = getSupabaseServerClient()
-  const { data, error } = await supabase
-    .from("fireside_blog_posts")
-    .select(
-      `
-        id,
-        title,
-        slug,
-        excerpt,
-        author,
-        content,
-        published_at,
-        featured_image_url,
-        featured_image_alt,
-        featured,
-        published
-      `,
-    )
-    .eq("id", id)
-    .single()
+  try {
+    const data = await convex.getBlogPostById(id)
 
-  if (error || !data) {
+    if (!data) {
+      return null
+    }
+
+    return {
+      id: data.id as string,
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt ?? null,
+      author: data.author ?? null,
+      content: data.content ?? null,
+      published_at: data.publishedAt ? new Date(data.publishedAt).toISOString() : null,
+      featured_image_url: data.featuredImageUrl ?? null,
+      featured_image_alt: data.featuredImageAlt ?? null,
+      featured: Boolean(data.featured),
+      published: Boolean(data.published),
+    }
+  } catch (error) {
     console.warn("[Admin] Failed to load blog post", error)
     return null
   }
-
-  return {
-    ...data,
-    featured: Boolean(data.featured),
-    published: Boolean(data.published),
-  } as AdminBlogPost
 }

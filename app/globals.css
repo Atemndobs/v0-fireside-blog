@@ -3,72 +3,99 @@
 @tailwind utilities;
 
 @layer base {
+  /* DARK THEME (Default) */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* BASE COLORS - Billboard/Spotify Dark Mode */
+    --background: 0 0% 4%;
+    /* #0a0a0a */
+    --foreground: 0 0% 100%;
+    /* #ffffff */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    /* SURFACES */
+    --card: 0 0% 9%;
+    /* #171717 */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    /* ACCENTS - Billboard Brand Colors */
+    --primary: 351 100% 50%;
+    /* #FF0025 (Billboard Red) */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 0 0% 11%;
+    /* #1c1c1c (Darker surface) */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-
-    --radius: 0.5rem;
-
-    --font-paragraph: 'Bricolage Grotesque Light', sans-serif;
-    --font-weight-paragraph: 300;
-
-    --font-headline: 'Bricolage Grotesque SemiBold', sans-serif;
-    --font-weight-headline: 600;
-  }
-
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 351 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --border: 0 0% 20%;
+    /* Slightly higher contrast border */
+    --input: 0 0% 20%;
+    --ring: 351 100% 50%;
+
+    /* SUCCESS - Green CTA (Billboard Style) */
+    --success: 142 71% 45%;
+    /* #22c55e */
+    --success-foreground: 0 0% 0%;
+
+    --radius: 0px;
+    /* Billboard uses sharp or minimal corners for charts/images */
+
+    /* FONTS - Loaded via fonts.css or Next Font */
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-editorial: 'Inter', sans-serif;
+  }
+
+  /* LIGHT THEME */
+  .light {
+    --background: 0 0% 100%;
+    /* #ffffff */
+    --foreground: 0 0% 4%;
+    /* #0a0a0a */
+
+    /* SURFACES */
+    --card: 0 0% 98%;
+    /* #fafafa */
+    --card-foreground: 0 0% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+
+    /* ACCENTS - Keep Billboard Red */
+    --primary: 351 100% 45%;
+    /* Slightly darker for light bg */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    /* #f5f5f5 */
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 351 100% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 351 100% 45%;
+
+    /* SUCCESS - Green CTA */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
   }
 }
 
@@ -76,37 +103,51 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
-  }
-  html, body {
-    font-family: var(--font-paragraph);
-    font-weight: var(--font-weight-paragraph);
+    @apply bg-background text-foreground antialiased selection:bg-red-500/30 selection:text-white;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
-  h1, h2, h3, h4, h5, h6, .headline, .font-headline {
-    font-family: var(--font-headline);
-    font-weight: var(--font-weight-headline);
+  /* HEADINGS - Billboard/Video Style */
+  h1,
+  h2,
+  h3,
+  h4,
+  .headline {
+    @apply font-bold tracking-tight text-foreground uppercase;
+    font-family: var(--font-heading);
   }
 
-  p, .paragraph, .font-paragraph {
-    font-family: var(--font-paragraph);
-    font-weight: var(--font-weight-paragraph);
+  /* BODY TEXT - Clean Sans */
+  p,
+  .body-text {
+    @apply text-muted-foreground leading-relaxed;
+    font-family: var(--font-body);
+  }
+
+  /* EDITORIAL - Blog specific */
+  .editorial-heading {
+    @apply font-normal normal-case;
+    font-family: var(--font-editorial);
   }
 }
 
-/* Neobrutalist styles */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4 {
-  @apply font-black;
-}
+/* UTILITIES for Premium Feel */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 
-.prose a {
-  @apply text-blue-600 font-bold no-underline hover:underline;
-}
+  .glass-panel {
+    @apply bg-background/80 backdrop-blur-md border border-border;
+  }
 
-.prose blockquote {
-  @apply border-l-4 border-black pl-4 italic;
+  .gradient-overlay-b {
+    background: linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.8) 70%, hsl(var(--background)) 100%);
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 ease-out hover:scale-105;
+  }
 }

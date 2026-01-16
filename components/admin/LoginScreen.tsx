@@ -3,20 +3,17 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { supabaseBrowserClient } from "@/lib/supabase/client"
-import { LoginForm } from "./LoginForm"
+import { SignIn, useAuth } from "@clerk/nextjs"
 
 export const LoginScreen = () => {
   const router = useRouter()
+  const { isLoaded, isSignedIn } = useAuth()
 
   useEffect(() => {
-    const supabase = supabaseBrowserClient()
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
-        router.replace("/admin")
-      }
-    })
-  }, [router])
+    if (isLoaded && isSignedIn) {
+      router.replace("/admin")
+    }
+  }, [isLoaded, isSignedIn, router])
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-16 text-white">
@@ -26,8 +23,7 @@ export const LoginScreen = () => {
             <p className="text-sm uppercase tracking-[0.3em] text-red-400">Fireside CMS</p>
             <h1 className="text-4xl font-black leading-tight">Sign in to manage the tribe</h1>
             <p className="text-slate-300">
-              Enter your Fireside Tribe email and password. If you don&apos;t have an account yet, ask the platform team
-              to invite you from Supabase.
+              Sign in with your Google account to access the admin dashboard.
             </p>
             <p className="text-sm text-slate-500">
               Need access?{" "}
@@ -37,12 +33,16 @@ export const LoginScreen = () => {
               .
             </p>
           </div>
-          <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-white p-6 text-slate-900 shadow-2xl md:max-w-none md:p-8">
-            <h2 className="text-xl font-semibold">Admin Access</h2>
-            <p className="text-sm text-slate-500">Use your Supabase credentials to continue.</p>
-            <div className="mt-6">
-              <LoginForm />
-            </div>
+          <div className="flex items-center justify-center">
+            <SignIn
+              appearance={{
+                elements: {
+                  rootBox: "mx-auto",
+                  card: "bg-white shadow-2xl",
+                }
+              }}
+              redirectUrl="/admin"
+            />
           </div>
         </div>
       </div>

@@ -2,28 +2,54 @@
 
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
-import { Switch } from "@/components/ui/switch"
 import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
-export default function ThemeSwitcher() {
-  const { theme, setTheme, resolvedTheme } = useTheme()
+interface ThemeSwitcherProps {
+  className?: string
+  variant?: "icon" | "switch"
+}
+
+export default function ThemeSwitcher({ className, variant = "icon" }: ThemeSwitcherProps) {
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  // Avoid hydration mismatch - show placeholder
+  if (!mounted) {
+    return (
+      <button
+        className={cn(
+          "p-2 rounded-md text-muted-foreground",
+          className
+        )}
+        aria-label="Toggle theme"
+      >
+        <div className="h-5 w-5" />
+      </button>
+    )
+  }
+
+  const isDark = resolvedTheme === "dark"
 
   return (
-    <div className="flex items-center gap-2">
-      <Sun className="w-5 h-5 text-yellow-400" />
-      <Switch
-        checked={resolvedTheme === "dark"}
-        onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-        aria-label="Toggle theme"
-      />
-      <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-    </div>
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className={cn(
+        "p-2 rounded-md transition-colors",
+        "text-muted-foreground hover:text-foreground hover:bg-secondary",
+        className
+      )}
+      aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+    >
+      {isDark ? (
+        <Sun className="h-5 w-5" />
+      ) : (
+        <Moon className="h-5 w-5" />
+      )}
+    </button>
   )
 }

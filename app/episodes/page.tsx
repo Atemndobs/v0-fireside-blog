@@ -1,74 +1,93 @@
-import { PodcastCard } from "@/components/podcast-card"
-import { SocialFollowStack } from "@/components/SocialFollowStack"
 import { getAllEpisodes } from "@/lib/repositories/content"
 import type { Episode } from "@/lib/types/content"
 import { getAssetUrl } from "@/lib/utils/assets"
+import { FeaturedVideoHero, VideoCard, SectionHeader } from "@/components/design-system"
 
+// Fallback data for development if no episodes exist
 const fallbackEpisodes = [
   {
+    id: "1",
     title: "The Rise of Cameroonian Artists Globally",
     description: "Discover how Cameroonian artists are making waves on the international music scene.",
-    date: "March 15, 2025",
-    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
+    publishedAt: "March 15, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5",
     youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-    imageSrc: getAssetUrl("images/sepo.jpg"),
+    coverImageUrl: getAssetUrl("images/sepo.jpg"),
+    slug: "rise-of-cameroonian-artists",
+    featured: true
   },
   {
+    id: "2",
     title: "Exploring Cameroon's Afrobeats Scene",
     description: "Dive into the rich sounds and rhythms of Cameroon's growing Afrobeats movement.",
-    date: "April 20, 2025",
-    spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ?si=121bab7159174929",
+    publishedAt: "April 20, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4qxmv4JdlfIwJM0nUFOhCJ",
     youtubeUrl: "https://youtu.be/kD-wI-jZQBY",
-    imageSrc: getAssetUrl("images/jail_time_records_cover.png"),
+    coverImageUrl: getAssetUrl("images/jail_time_records_cover.png"),
+    slug: "exploring-cameroon-afrobeats",
+    featured: false
   },
   {
+    id: "3",
     title: "Spotlight on Douala's Music Scene",
     description: "Exploring the vibrant underground music culture in Cameroon's largest city.",
-    date: "May 5, 2025",
-    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5?si=a32a205a9ed64ee3",
+    publishedAt: "May 5, 2025",
+    spotifyUrl: "https://open.spotify.com/episode/4MLpsIqPq6fdhAsDfN5lP5",
     youtubeUrl: "https://youtu.be/mw4xLb59QO0",
-    imageSrc: getAssetUrl("images/ber_boys.jpg"),
+    coverImageUrl: getAssetUrl("images/ber_boys.jpg"),
+    slug: "douala-music-scene",
+    featured: false
   },
-]
-
-const toCardData = (episodes: Episode[]) =>
-  episodes.map((episode) => ({
-    title: episode.title,
-    description: episode.description ?? "Fresh conversations from the Fireside Tribe.",
-    date: episode.publishedAt ?? "New episode",
-    spotifyUrl: episode.spotifyUrl ?? "",
-    youtubeUrl: episode.youtubeUrl ?? "",
-    imageSrc: episode.coverImageUrl ?? "/placeholder.svg",
-  }))
+] as any[]
 
 export default async function EpisodesPage() {
-  const episodes = await getAllEpisodes()
-  const cards = episodes.length ? toCardData(episodes) : fallbackEpisodes
+  const rawEpisodes = await getAllEpisodes()
+  const episodes = rawEpisodes.length > 0 ? rawEpisodes : fallbackEpisodes
+
+  // Strategy: Find first featured episode, or default to first episode
+  const featuredEpisode = episodes.find((e) => e.featured) || episodes[0] || null
+
+  // Remaining episodes (exclude featured if found, otherwise exclude first)
+  const otherEpisodes = featuredEpisode
+    ? episodes.filter(e => e.id !== featuredEpisode.id)
+    : []
 
   return (
-    <div className="min-h-screen bg-yellow-50 py-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-block bg-red-500 px-4 py-2 text-black font-black rotate-1 mb-4">PODCAST</div>
-          <h1 className="text-4xl md:text-6xl font-headline mb-4">The Fireside Tribe</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Join us as we explore Cameroon's vibrant music scene, interview artists, and celebrate the sounds that make
-            Cameroonian Afrobeats unique.
-          </p>
-        </div>
+    <div className="min-h-screen bg-background pb-20">
+      {/* Hero Section */}
+      {featuredEpisode && (
+        <FeaturedVideoHero
+          title={featuredEpisode.title}
+          description={featuredEpisode.description}
+          subtitle={`Episode • ${featuredEpisode.publishedAt || 'New'}`}
+          thumbnailUrl={featuredEpisode.coverImageUrl || '/placeholder.svg'}
+          href={`/episodes/${featuredEpisode.slug}`}
+          label="Featured Episode"
+        />
+      )}
 
-        <div className="flex items-center gap-4 mb-12">
-          <h2 className="text-3xl md:text-4xl font-black">ALL EPISODES</h2>
-        </div>
+      {/* Main Grid Content */}
+      <div className="container mx-auto px-4 mt-12 md:mt-16">
+        <SectionHeader title="Latest Episodes" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {cards.map((episode) => (
-            <PodcastCard key={`${episode.title}-${episode.date}`} {...episode} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
+          {otherEpisodes.map((episode) => (
+            <VideoCard
+              key={episode.id}
+              title={episode.title}
+              thumbnailUrl={episode.coverImageUrl || '/placeholder.svg'}
+              duration="45:00" /* Placeholder duration or mapped if available */
+              href={`/episodes/${episode.slug}`}
+              category="Podcast"
+            />
           ))}
-        </div>
 
-        <div className="mt-16">
-          <SocialFollowStack zone="episodes_cta" heading="Follow The Fireside Tribe" />
+          {/* If simplified fallback logic resulted in duplicates or empty, ensure we show the rest */}
+          {(!featuredEpisode && otherEpisodes.length === 0) && (
+            <div className="col-span-full text-center text-gray-500 py-20">
+              No episodes found.
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -65,8 +65,8 @@ const initPosthog = () => {
 }
 
 const shutdownPosthog = () => {
-  if (posthogInitialized) {
-    posthog.shutdown()
+  if (posthogInitialized && typeof posthog.reset === "function") {
+    posthog.reset()
     posthogInitialized = false
   }
 }

@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import * as convex from "@/lib/convex/server"
 import path from "path"
 import { promisify } from "util"
 import { exec } from "child_process"
@@ -22,24 +22,23 @@ export interface EpisodeFormData {
 
 export async function createEpisode(data: EpisodeFormData) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: episode, error } = await supabase
-      .from("fireside_episodes")
-      .insert([data])
-      .select()
-      .single()
-
-    if (error) {
-      console.error("Error creating episode:", error)
-      return { success: false, error: error.message }
-    }
+    const episodeId = await convex.createEpisode({
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      publishedAt: new Date(data.published_at).getTime(),
+      coverImageUrl: data.cover_image_url,
+      coverImageAlt: data.cover_image_alt,
+      spotifyUrl: data.spotify_url,
+      youtubeUrl: data.youtube_url,
+      featured: data.featured,
+    })
 
     revalidatePath("/admin/episodes")
     revalidatePath("/episodes")
     revalidatePath("/")
 
-    return { success: true, data: episode }
+    return { success: true, data: { id: episodeId } }
   } catch (error) {
     console.error("Error creating episode:", error)
     return { success: false, error: "Failed to create episode" }
@@ -48,25 +47,23 @@ export async function createEpisode(data: EpisodeFormData) {
 
 export async function updateEpisode(id: string, data: Partial<EpisodeFormData>) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { data: episode, error } = await supabase
-      .from("fireside_episodes")
-      .update(data)
-      .eq("id", id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error("Error updating episode:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.updateEpisode(id, {
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      publishedAt: data.published_at ? new Date(data.published_at).getTime() : undefined,
+      coverImageUrl: data.cover_image_url,
+      coverImageAlt: data.cover_image_alt,
+      spotifyUrl: data.spotify_url,
+      youtubeUrl: data.youtube_url,
+      featured: data.featured,
+    })
 
     revalidatePath("/admin/episodes")
     revalidatePath("/episodes")
     revalidatePath("/")
 
-    return { success: true, data: episode }
+    return { success: true, data: { id } }
   } catch (error) {
     console.error("Error updating episode:", error)
     return { success: false, error: "Failed to update episode" }
@@ -75,14 +72,7 @@ export async function updateEpisode(id: string, data: Partial<EpisodeFormData>) 
 
 export async function deleteEpisode(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
-
-    const { error } = await supabase.from("fireside_episodes").delete().eq("id", id)
-
-    if (error) {
-      console.error("Error deleting episode:", error)
-      return { success: false, error: error.message }
-    }
+    await convex.deleteEpisode(id)
 
     revalidatePath("/admin/episodes")
     revalidatePath("/episodes")
@@ -97,16 +87,34 @@ export async function deleteEpisode(id: string) {
 
 export async function getEpisodeById(id: string) {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getEpisodeById(id)
 
-    const { data, error } = await supabase.from("fireside_episodes").select("*").eq("id", id).single()
-
-    if (error) {
-      console.error("Error fetching episode:", error)
-      return { success: false, error: error.message }
+    if (!data) {
+      return { success: false, error: "Episode not found" }
     }
 
-    return { success: true, data }
+    // Transform to snake_case for backwards compatibility
+    return {
+      success: true,
+      data: {
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        description: data.description,
+        published_at: data.publishedAt ? new Date(data.publishedAt).toISOString() : null,
+        cover_image_url: data.coverImageUrl,
+        cover_image_alt: data.coverImageAlt,
+        spotify_url: data.spotifyUrl,
+        spotify_id: data.spotifyId,
+        youtube_url: data.youtubeUrl,
+        youtube_id: data.youtubeId,
+        duration_seconds: data.durationSeconds,
+        show_notes: data.showNotes,
+        featured: data.featured,
+        auto_synced: data.autoSynced,
+        seo: data.seo,
+      },
+    }
   } catch (error) {
     console.error("Error fetching episode:", error)
     return { success: false, error: "Failed to fetch episode" }
@@ -115,19 +123,23 @@ export async function getEpisodeById(id: string) {
 
 export async function getAllEpisodesForAdmin() {
   try {
-    const supabase = getSupabaseServerClient()
+    const data = await convex.getAllEpisodesForAdmin()
 
-    const { data, error } = await supabase
-      .from("fireside_episodes")
-      .select("*")
-      .order("published_at", { ascending: false })
+    // Transform to snake_case for backwards compatibility
+    const transformedData = data.map((episode: any) => ({
+      id: episode.id,
+      title: episode.title,
+      slug: episode.slug,
+      description: episode.description,
+      published_at: episode.publishedAt ? new Date(episode.publishedAt).toISOString() : null,
+      cover_image_url: episode.coverImageUrl,
+      spotify_url: episode.spotifyUrl,
+      youtube_url: episode.youtubeUrl,
+      featured: episode.featured,
+      auto_synced: episode.autoSynced,
+    }))
 
-    if (error) {
-      console.error("Error fetching episodes:", error)
-      return { success: false, error: error.message, data: [] }
-    }
-
-    return { success: true, data: data ?? [] }
+    return { success: true, data: transformedData }
   } catch (error) {
     console.error("Error fetching episodes:", error)
     return { success: false, error: "Failed to fetch episodes", data: [] }

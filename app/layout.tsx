@@ -3,21 +3,37 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import "./fonts.css"
-import Link from "next/link"
+import { ClerkProvider } from "@clerk/nextjs"
 import { ThemeProvider } from "@/components/theme-provider"
-import MobileHeader from "@/components/MobileHeader"
 import { AnalyticsProvider } from "@/components/posthog-provider"
-import { AdminNavIcon } from "@/components/AdminNavIcon"
-import { SocialFollowStack } from "@/components/SocialFollowStack"
+import { Header } from "@/components/layout/Header"
+import { Footer } from "@/components/layout/Footer"
 import { isContentLive } from "@/lib/config/publishing"
 import { getAAAPagePublishingWindow } from "@/lib/repositories/pages"
+import { ConvexClientProvider } from "@/components/providers/ConvexClientProvider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "The Fireside Tribe - Cameroonian Afrobeats Music Blog",
   description: "Celebrating and promoting Cameroonian music and the Fireside Tribe podcast",
-    generator: 'v0.dev'
+  generator: "v0.dev",
+  manifest: "/icons/manifest.json",
+  themeColor: "#000000",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black",
+    title: "The Fireside Tribe",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icons/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/icons/favicon-circle-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/icons/apple-icon-180x180.png", sizes: "180x180" }],
+    shortcut: ["/icons/favicon-circle-512.png"],
+  },
 }
 
 export default async function RootLayout({
@@ -25,125 +41,43 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Use local icons for PWA (not Supabase) to ensure updated logos are used
-  const manifestUrl = "/icons/manifest.json"
-  const logoUrl = "https://ytqwwxlqqpqhhcpcqxax.supabase.co/storage/v1/object/public/fireside_assets/Logo%20design.jpg"
-  const appleIcon = "/icons/apple-icon-180x180.png"
-  const favicon32 = "/icons/favicon-32x32.png"
-  const favicon16 = "/icons/favicon-16x16.png"
-  const shortcutIcon = "/icons/favicon-circle-512.png"
+  // Use local assets instead of Supabase storage
+  const logoUrl = "/images/Logo design.jpg"
 
   const publishWindow = await getAAAPagePublishingWindow()
   const showAAAPage = isContentLive(publishWindow)
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="manifest" href={manifestUrl} />
-        <meta name="theme-color" content="#000000" />
-        <link rel="apple-touch-icon" sizes="180x180" href={appleIcon} />
-        <link rel="icon" type="image/png" sizes="32x32" href={favicon32} />
-        <link rel="icon" type="image/png" sizes="16x16" href={favicon16} />
-        <link rel="shortcut icon" type="image/png" href={shortcutIcon} />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="apple-mobile-web-app-title" content="The Fireside Tribe" />
-        <meta name="description" content="Celebrating and promoting Cameroonian music and the Fireside Tribe podcast" />
-        <script dangerouslySetInnerHTML={{ __html: `
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <script dangerouslySetInnerHTML={{
+            __html: `
           if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
               navigator.serviceWorker.register('/service-worker.js');
             });
           }
         ` }} />
-      </head>
-      <body className={inter.className + " font-paragraph"}>
-        <AnalyticsProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            <header className="bg-black text-white py-4 px-4 border-b-4 border-red-500 sticky top-0 z-50">
-              <div className="max-w-7xl mx-auto flex justify-between items-center">
-                <Link href="/" className="flex items-center gap-3">
-                  <img src={logoUrl} alt="The Fireside Tribe Logo" className="h-10 w-10 rounded-full object-cover" />
-                  <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
-                </Link>
+        </head>
+        <body className={inter.className + " font-paragraph"}>
+          <ConvexClientProvider>
+            <AnalyticsProvider>
+              <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+                {/* Billboard-Style Header */}
+                <Header logoUrl={logoUrl} showAAAPage={showAAAPage} />
 
-                <nav className="hidden md:flex items-center gap-8">
-                  <Link href="/" className="font-bold hover:text-red-500 transition-colors">
-                    HOME
-                  </Link>
-                  <Link href="/episodes" className="font-bold hover:text-red-500 transition-colors">
-                    EPISODES
-                  </Link>
-                  <Link href="/artists" className="font-bold hover:text-red-500 transition-colors">
-                    ARTISTS
-                  </Link>
-                  <Link href="/blog" className="font-bold hover:text-red-500 transition-colors">
-                    BLOG
-                  </Link>
-                  {showAAAPage && (
-                    <Link href="/AAA" className="font-bold hover:text-purple-500 transition-colors">
-                      A³
-                    </Link>
-                  )}
-                  <AdminNavIcon />
-                </nav>
+                {/* Main Content - Add top padding for fixed header */}
+                <main className="pt-16 min-h-screen">
+                  {children}
+                </main>
 
-                {/* Mobile Burger Menu - now in separate client component */}
-                <MobileHeader showAAAPage={showAAAPage} />
-              </div>
-            </header>
-
-            {children}
-
-            <footer className="bg-black text-white py-12 px-4 border-t-8 border-red-500">
-              <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                  <Link href="/" className="flex items-center gap-3 mb-4">
-                    <img src={logoUrl} alt="The Fireside Tribe Logo" className="h-12 w-12 rounded-full object-cover" />
-                    <span className="font-black text-xl">THE FIRESIDE TRIBE</span>
-                  </Link>
-                  <p className="text-gray-400">
-                    Celebrating and promoting Cameroonian music and Afrobeats through podcasts, articles, and artist
-                    features.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2">QUICK LINKS</h3>
-                  <nav className="flex flex-col gap-2">
-                    <Link href="/" className="hover:text-red-500 transition-colors">
-                      Home
-                    </Link>
-                    <Link href="/episodes" className="hover:text-red-500 transition-colors">
-                      Episodes
-                    </Link>
-                    <Link href="/artists" className="hover:text-red-500 transition-colors">
-                      Artists
-                    </Link>
-                    <Link href="/blog" className="hover:text-red-500 transition-colors">
-                      Blog
-                    </Link>
-                    {showAAAPage && (
-                      <Link href="/AAA" className="hover:text-purple-500 transition-colors">
-                        A³
-                      </Link>
-                    )}
-                  </nav>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2">CONNECT</h3>
-                  <SocialFollowStack zone="footer" variant="inline" />
-                </div>
-              </div>
-
-              <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-gray-800 text-center text-gray-400">
-                <p> {new Date().getFullYear()} The Fireside Tribe. All rights reserved.</p>
-              </div>
-            </footer>
-          </ThemeProvider>
-        </AnalyticsProvider>
-      </body>
-    </html>
+                <Footer logoUrl={logoUrl} />
+              </ThemeProvider>
+            </AnalyticsProvider>
+          </ConvexClientProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
