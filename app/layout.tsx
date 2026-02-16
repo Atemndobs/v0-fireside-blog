@@ -9,6 +9,7 @@ import { AnalyticsProvider } from "@/components/posthog-provider"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { isContentLive } from "@/lib/config/publishing"
+import { publicContentVisibility } from "@/lib/config/content-visibility"
 import { getAAAPagePublishingWindow } from "@/lib/repositories/pages"
 import { ConvexClientProvider } from "@/components/providers/ConvexClientProvider"
 
@@ -46,6 +47,7 @@ export default async function RootLayout({
 
   const publishWindow = await getAAAPagePublishingWindow()
   const showAAAPage = isContentLive(publishWindow)
+  const { artists: showArtistsPage, blog: showBlogPage } = publicContentVisibility
 
   return (
     <ClerkProvider>
@@ -65,14 +67,19 @@ export default async function RootLayout({
             <AnalyticsProvider>
               <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
                 {/* Billboard-Style Header */}
-                <Header logoUrl={logoUrl} showAAAPage={showAAAPage} />
+                <Header
+                  logoUrl={logoUrl}
+                  showAAAPage={showAAAPage}
+                  showArtistsPage={showArtistsPage}
+                  showBlogPage={showBlogPage}
+                />
 
                 {/* Main Content - Add top padding for fixed header */}
                 <main className="pt-16 min-h-screen">
                   {children}
                 </main>
 
-                <Footer logoUrl={logoUrl} />
+                <Footer logoUrl={logoUrl} showArtistsPage={showArtistsPage} showBlogPage={showBlogPage} />
               </ThemeProvider>
             </AnalyticsProvider>
           </ConvexClientProvider>

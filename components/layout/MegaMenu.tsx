@@ -10,6 +10,8 @@ interface MegaMenuProps {
   isOpen: boolean
   onClose: () => void
   showAAAPage?: boolean
+  showArtistsPage?: boolean
+  showBlogPage?: boolean
 }
 
 const episodeLinks: MenuLink[] = [
@@ -34,10 +36,28 @@ const aboutLinks: MenuLink[] = [
   { label: "Contact", href: "/contact" },
 ]
 
-export function MegaMenu({ isOpen, onClose, showAAAPage }: MegaMenuProps) {
+export function MegaMenu({
+  isOpen,
+  onClose,
+  showAAAPage,
+  showArtistsPage = true,
+  showBlogPage = true
+}: MegaMenuProps) {
   const handleLinkClick = () => {
     onClose()
   }
+
+  const sections = [
+    { title: "EPISODES", links: episodeLinks },
+    ...(showArtistsPage ? [{ title: "ARTISTS", links: artistLinks }] : []),
+    ...(showBlogPage ? [{ title: "BLOG", links: blogLinks }] : []),
+    {
+      title: "ABOUT",
+      links: showAAAPage ? [...aboutLinks, { label: "A³ Initiative", href: "/AAA" }] : aboutLinks
+    },
+  ]
+  const desktopGridClass =
+    sections.length >= 4 ? "md:grid-cols-4" : sections.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"
 
   return (
     <AnimatePresence>
@@ -69,7 +89,7 @@ export function MegaMenu({ isOpen, onClose, showAAAPage }: MegaMenuProps) {
                 </Link>
 
                 <div className="flex-1 max-w-xl mx-4 hidden md:block">
-                  <SearchInput placeholder="Search episodes, artists, blog..." />
+                  <SearchInput placeholder="Search content..." />
                 </div>
 
                 <button
@@ -87,15 +107,15 @@ export function MegaMenu({ isOpen, onClose, showAAAPage }: MegaMenuProps) {
               </div>
 
               {/* Category Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-                <MenuSection title="EPISODES" links={episodeLinks} onLinkClick={handleLinkClick} />
-                <MenuSection title="ARTISTS" links={artistLinks} onLinkClick={handleLinkClick} />
-                <MenuSection title="BLOG" links={blogLinks} onLinkClick={handleLinkClick} />
-                <MenuSection
-                  title="ABOUT"
-                  links={showAAAPage ? [...aboutLinks, { label: "A³ Initiative", href: "/AAA" }] : aboutLinks}
-                  onLinkClick={handleLinkClick}
-                />
+              <div className={`grid grid-cols-2 ${desktopGridClass} gap-8 md:gap-12`}>
+                {sections.map((section) => (
+                  <MenuSection
+                    key={section.title}
+                    title={section.title}
+                    links={section.links}
+                    onLinkClick={handleLinkClick}
+                  />
+                ))}
               </div>
 
               {/* Bottom: Social Links or Newsletter */}

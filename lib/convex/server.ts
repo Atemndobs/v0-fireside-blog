@@ -43,6 +43,10 @@ export async function getAllEpisodes() {
     return await convexClient.query(api.queries.getEpisodes, {});
 }
 
+export async function getEpisodeBySlug(slug: string) {
+    return await convexClient.query(api.queries.getEpisodeBySlug, { slug });
+}
+
 export async function getFeaturedArtists(limit = 3) {
     return await convexClient.query(api.queries.getArtists, {
         limit,
@@ -54,12 +58,20 @@ export async function getAllArtists() {
     return await convexClient.query(api.queries.getArtists, {});
 }
 
+export async function getArtistBySlug(slug: string) {
+    return await convexClient.query(api.queries.getArtistBySlug, { slug });
+}
+
 export async function getLatestBlogPosts(limit = 3) {
     return await convexClient.query(api.queries.getBlogPosts, { limit });
 }
 
 export async function getAllBlogPosts() {
     return await convexClient.query(api.queries.getBlogPosts, {});
+}
+
+export async function getBlogPostBySlug(slug: string) {
+    return await convexClient.query(api.queries.getBlogPostBySlug, { slug });
 }
 
 // ============================================

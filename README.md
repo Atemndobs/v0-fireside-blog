@@ -28,6 +28,24 @@ SUPABASE_INVITE_REDIRECT_URL=https://firesidetribe.com/admin/login
 
 Use the exact domain for each environment (localhost, staging, production) so new teammates land on the right app after accepting their invitation.
 
+## Public Content Visibility Switches
+
+The public site now supports non-destructive content hiding for editorial and artist pages. Data remains in the CMS/admin, but public routes and nav links can be switched off.
+
+Environment flags:
+
+```bash
+NEXT_PUBLIC_SHOW_EPISODES_CONTENT=true
+NEXT_PUBLIC_SHOW_ARTISTS_CONTENT=false
+NEXT_PUBLIC_SHOW_BLOG_CONTENT=false
+```
+
+Defaults if unset:
+
+1. Episodes: visible
+2. Artists: hidden
+3. Blog/Editorial: hidden
+
 ## Development
 
 ```bash

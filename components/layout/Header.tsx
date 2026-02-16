@@ -10,16 +10,22 @@ import { AdminNavIcon } from "@/components/AdminNavIcon"
 interface HeaderProps {
   logoUrl: string
   showAAAPage?: boolean
+  showArtistsPage?: boolean
+  showBlogPage?: boolean
 }
 
-const navLinks = [
-  { label: "Episodes", href: "/episodes" },
-  { label: "Artists", href: "/artists" },
-  { label: "Blog", href: "/blog" },
-]
-
-export function Header({ logoUrl, showAAAPage }: HeaderProps) {
+export function Header({
+  logoUrl,
+  showAAAPage,
+  showArtistsPage = true,
+  showBlogPage = true
+}: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navLinks = [
+    { label: "Episodes", href: "/episodes" },
+    ...(showArtistsPage ? [{ label: "Artists", href: "/artists" }] : []),
+    ...(showBlogPage ? [{ label: "Blog", href: "/blog" }] : []),
+  ]
 
   return (
     <>
@@ -86,7 +92,13 @@ export function Header({ logoUrl, showAAAPage }: HeaderProps) {
       </header>
 
       {/* Mega Menu Overlay */}
-      <MegaMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} showAAAPage={showAAAPage} />
+      <MegaMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        showAAAPage={showAAAPage}
+        showArtistsPage={showArtistsPage}
+        showBlogPage={showBlogPage}
+      />
     </>
   )
 }

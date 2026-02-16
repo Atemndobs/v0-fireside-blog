@@ -6,8 +6,11 @@ export {
   getFeaturedEpisodes,
   getLatestEpisodes,
   getAllEpisodes,
+  getEpisodeBySlug,
   getFeaturedArtists,
   getAllArtists,
+  getArtistBySlug,
   getLatestBlogPosts,
   getAllBlogPosts,
+  getBlogPostBySlug,
 } from "@/lib/convex/server"
