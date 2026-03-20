@@ -206,4 +206,23 @@ export default defineSchema({
         .index("by_order", ["orderRank"])
         .index("by_active", ["active"])
         .index("by_supabaseId", ["supabaseId"]),
+
+    // Financial Transactions
+    transactions: defineTable({
+        type: v.union(v.literal("contribution"), v.literal("expense")),
+        amount: v.number(),
+        date: v.string(), // ISO date string (YYYY-MM-DD)
+        description: v.string(),
+        category: v.string(), // shield-editor, lumiere-editor, promotion, contribution, etc.
+        person: v.string(), // atem, anyang, eunice
+        notes: v.string(),
+        isHistorical: v.boolean(), // true for imported historical data
+        createdAt: v.number(),
+        updatedAt: v.number(),
+    })
+        .index("by_date", ["date"])
+        .index("by_type", ["type"])
+        .index("by_person", ["person"])
+        .index("by_category", ["category"])
+        .index("by_historical", ["isHistorical"]),
 });
