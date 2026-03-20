@@ -6,6 +6,9 @@
  * Cost split: 1/3 each (Atem, Eunice, Anyang)
  */
 
+import dotenv from "dotenv"
+dotenv.config({ path: ".env.local" })
+
 import { ConvexHttpClient } from "convex/browser"
 import { api } from "../convex/_generated/api"
 

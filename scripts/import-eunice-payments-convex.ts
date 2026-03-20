@@ -3,6 +3,9 @@
  * Run: npx tsx scripts/import-eunice-payments-convex.ts
  */
 
+import dotenv from "dotenv"
+dotenv.config({ path: ".env.local" })
+
 import fs from "node:fs"
 import path from "node:path"
 import { ConvexHttpClient } from "convex/browser"
